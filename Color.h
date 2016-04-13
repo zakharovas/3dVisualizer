@@ -7,6 +7,8 @@
 
 
 class Color {
+private:
+    class HslColor;
 public:
     Color(double r, double g, double b) : r_(r), g_(g), b_(b) { };
 
@@ -24,10 +26,29 @@ public:
 
     double get_b() const { return b_; }
 
+    void AddLight(double lightness);
+
+    HslColor ToHsl() const;
+
 private:
     double r_;
     double g_;
     double b_;
+
+    class HslColor {
+    public:
+        HslColor(const Color &color);
+
+        void AddLight(double lightness);
+
+        Color ToRgb() const;
+
+
+    private:
+        double h_;
+        double s_;
+        double l_;
+    };
 };
 
 

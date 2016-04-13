@@ -1,34 +1,23 @@
-
+#include <iostream>
 #include "PixelToaster.h"
 #include "Drawer.h"
 
 using namespace PixelToaster;
 
-int main()
-{
+int main() {
     const int width = 1400;
     const int height = 600;
-    Display display( "TrueColor Example", width, height, Output::Default, Mode::TrueColor );
+    Image image(600, 1400);
+    unsigned int index = 0;
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            Color cur(25, 187, 236);
 
-    vector<TrueColorPixel> pixels( width * height );
-
-    while ( display.open() )
-    {
-        unsigned int index = 0;
-
-        for ( int y = 0; y < height; ++y )
-        {
-            for ( int x = 0; x < width; ++x )
-            {
-                pixels[index].r = x < 2550 ? x * .10 / 10 : 255;
-                pixels[index].g = y < 2550 ? y/10 : 255;
-                pixels[index].b = x+y < 2550 ? (x+y)/10 : 255;
-
-                ++index;
-            }
+            image.SetPixel(x, y, cur.ToHsl().ToRgb());
+            ++index;
         }
-
-        display.update( pixels );
-
     }
+    Drawer drawer(image);
+    drawer.Draw();
+    return 0;
 }
