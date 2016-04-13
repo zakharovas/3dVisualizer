@@ -6,35 +6,35 @@
 #include <cmath>
 #include "Point.h"
 
-double Point::DotProduct(const Point &point_) const {
-    return point_.x * x + point_.y * y + point_.z * z;
+double Point::DotProduct(const Point &point) const {
+    return point.x * x + point.y * y + point.z * z;
 }
 
-Point Point::CrossProduct(const Point &point_) const {
-    double new_x = y * point_.z - point_.y * z;
-    double new_y = z * point_.x - x * point_.z;
-    double new_z = x * point_.y - y * point_.x;
+Point Point::CrossProduct(const Point &point) const {
+    double new_x = y * point.z - point.y * z;
+    double new_y = z * point.x - x * point.z;
+    double new_z = x * point.y - y * point.x;
     return Point{new_x, new_y, new_z};
 }
 
-Point Point::operator+(const Point &point_) const {
-    return Point{x + point_.x, y + point_.y, z + point_.z};
+Point Point::operator+(const Point &point) const {
+    return Point{x + point.x, y + point.y, z + point.z};
 }
 
-Point Point::operator-(const Point &point_) const {
-    return Point{x - point_.x, y - point_.y, z - point_.z};
+Point Point::operator-(const Point &point) const {
+    return Point{x - point.x, y - point.y, z - point.z};
 }
 
-Point Point::operator*(double number_) const {
-    return Point{x * number_, y * number_, z * number_};
+Point Point::operator*(double number) const {
+    return Point{x * number, y * number, z * number};
 }
 
-Point Point::operator/(double number_) const {
-    assert(number_ != 0);
-    return Point{x / number_, y / number_, z / number_};
+Point Point::operator/(double number) const {
+    assert(number != 0);
+    return Point{x / number, y / number, z / number};
 }
 
-double Point::Length() {
+double Point::Length() const {
     return sqrt(x * x + y * y + z * z);
 }
 

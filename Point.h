@@ -12,19 +12,19 @@ public:
     const double y;
     const double z;
 
-    double DotProduct(const Point &point_) const;
+    double DotProduct(const Point &point) const;
 
-    Point CrossProduct(const Point &point_) const;
+    Point CrossProduct(const Point &point) const;
 
-    Point operator+(const Point &point_) const;
+    Point operator+(const Point &point) const;
 
-    Point operator-(const Point &point_) const;
+    Point operator-(const Point &point) const;
 
-    Point operator*(double number_) const;
+    Point operator*(double number) const;
 
-    Point operator/(double number_) const;
+    Point operator/(double number) const;
 
-    double Length();
+    double Length() const;
 
 };
 

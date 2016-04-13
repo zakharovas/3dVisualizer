@@ -7,10 +7,18 @@
 
 
 #include "Primitive.h"
+#include "Image.h"
+#include "LightSource.h"
 
 class World {
-    public:
-      void addPrimitive(Primitive& a);
+public:
+    void AddPrimitive(Primitive &primitive);
+
+    void AddLight(LightSource &light);
+
+    void SetCamera(Point &point);
+
+    Image CreateImage(unsigned int height, unsigned int width);
 
 };
 

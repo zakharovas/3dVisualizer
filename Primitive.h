@@ -12,12 +12,11 @@
 
 class Primitive {
 public:
-    virtual bool TryToIntersect(const Ray &ray_) = 0;
+    virtual bool TryToIntersect(const Ray &ray) const = 0;
 
-    virtual Point Intersect(const Ray &ray_) = 0;
+    virtual Point Intersect(const Ray &ray) const = 0;
 
-    virtual Color getColor(const Point &point_) = 0;
-
+    virtual Color getColor(const Point &point) const = 0;
 
 };
 
