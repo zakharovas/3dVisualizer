@@ -6,8 +6,16 @@
 #define INC_3DVISUALIZER_DRAWER_H
 
 
-class Drawer {
+#include "Image.h"
 
+class Drawer {
+public:
+    Drawer(const Image &image) : image_(image) { };
+
+    void Draw() const;
+
+private:
+    const Image image_;
 };
 
 

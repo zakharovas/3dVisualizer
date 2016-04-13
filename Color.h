@@ -7,7 +7,17 @@
 
 
 class Color {
+public:
+    unsigned int GetR() const;
 
+    unsigned int GetG() const;
+
+    unsigned int GetB() const;
+
+private:
+    double r_;
+    double g_;
+    double b_;
 };
 
 
