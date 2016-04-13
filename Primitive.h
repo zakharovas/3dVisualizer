@@ -7,10 +7,17 @@
 
 
 #include "Color.h"
+#include "Ray.h"
+#include "Point.h"
 
 class Primitive {
 public:
-    virtual Color a()=0;
+    virtual bool TryToIntersect(const Ray &ray_) = 0;
+
+    virtual Point Intersect(const Ray &ray_) = 0;
+
+    virtual Color getColor(const Point &point_) = 0;
+
 
 };
 

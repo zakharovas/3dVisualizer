@@ -16,13 +16,15 @@ public:
 
     Point CrossProduct(const Point &point_) const;
 
-    Point operator + (const Point &point_) const;
+    Point operator+(const Point &point_) const;
 
-    Point operator - (const Point &point_) const;
+    Point operator-(const Point &point_) const;
 
-    Point operator * (double number_) const;
+    Point operator*(double number_) const;
 
-    Point operator / (double number_) const;
+    Point operator/(double number_) const;
+
+    double Length();
 
 };
 

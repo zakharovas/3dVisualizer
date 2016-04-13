@@ -6,8 +6,14 @@
 #define INC_3DVISUALIZER_RAY_H
 
 
-class Ray {
+#include <initializer_list>
+#include "Point.h"
 
+class Ray {
+    Ray(Point point, Vector vector): point_(point), vector_(vector) {};
+private:
+    Point point_;
+    Vector vector_;
 };
 
 
