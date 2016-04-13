@@ -38,6 +38,20 @@ double Point::Length() const {
     return sqrt(x * x + y * y + z * z);
 }
 
+Point::Point(const Point &point_) : x(point_.x), y(point_.y), z(point_.z) {
+}
+
+Point Point::operator=(const Point &point_) {
+    return Point(point_);
+}
+
+
+
+
+
+
+
+
 
 
 

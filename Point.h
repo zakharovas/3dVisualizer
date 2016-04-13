@@ -8,9 +8,14 @@
 
 class Point {
 public:
+
     const double x;
     const double y;
     const double z;
+
+    Point(const double x_, const double y_, const double z_) : x(x_), y(y_), z(z_) { };
+
+    Point(const Point &point_);
 
     double DotProduct(const Point &point) const;
 
@@ -25,6 +30,8 @@ public:
     Point operator/(double number) const;
 
     double Length() const;
+
+    Point operator=(const Point &point_);
 
 };
 

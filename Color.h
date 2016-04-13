@@ -10,6 +10,8 @@ class Color {
 public:
     Color(double r, double g, double b) : r_(r), g_(g), b_(b) { };
 
+    Color() : r_(0), g_(0), b_(0) { };
+
     unsigned int GetR() const;
 
     unsigned int GetG() const;
