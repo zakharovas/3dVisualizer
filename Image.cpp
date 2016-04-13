@@ -43,9 +43,9 @@ Color Image::SmoothColor_(unsigned int x, unsigned int y) const {
             blue += image_[y + dy][x + dx].get_b();
         }
     }
-    red /= pow((kAntiAliasingSize + 1), 2);
-    green /= pow((kAntiAliasingSize + 1), 2);
-    blue /= pow((kAntiAliasingSize + 1), 2);
+    red /= pow((kAntiAliasingSize), 2);
+    green /= pow((kAntiAliasingSize), 2);
+    blue /= pow((kAntiAliasingSize), 2);
     return Color(red, green, blue);
 }
 

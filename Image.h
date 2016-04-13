@@ -27,7 +27,7 @@ public:
 
 private:
 
-    static const unsigned int kAntiAliasingSize = 1;
+    static const unsigned int kAntiAliasingSize = 2;
 
     std::vector<std::vector<Color>> image_;
 
