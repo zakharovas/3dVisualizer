@@ -22,9 +22,18 @@ public:
 
     void SetPixel(unsigned int x, unsigned int y, Color color_);
 
+    Image Smooth() const;
+
 
 private:
+
+    static const unsigned int kAntiAliasingSize = 1;
+
     std::vector<std::vector<Color>> image_;
+
+    Color SmoothColor_(unsigned int x, unsigned int y) const;
+
+
 };
 
 

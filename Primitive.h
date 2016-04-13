@@ -16,7 +16,7 @@ public:
 
     virtual Point Intersect(const Ray &ray) const = 0;
 
-    virtual Color getColor(const Point &point) const = 0;
+    virtual Color GetColor(const Point &point) const = 0;
 
 };
 

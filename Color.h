@@ -8,11 +8,19 @@
 
 class Color {
 public:
+    Color(double r, double g, double b) : r_(r), g_(g), b_(b) { };
+
     unsigned int GetR() const;
 
     unsigned int GetG() const;
 
     unsigned int GetB() const;
+
+    double get_r() const { return r_; };
+
+    double get_g() const { return g_; }
+
+    double get_b() const { return b_; }
 
 private:
     double r_;

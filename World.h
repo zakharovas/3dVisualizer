@@ -9,6 +9,7 @@
 #include "Primitive.h"
 #include "Image.h"
 #include "LightSource.h"
+#include "Camera.h"
 
 class World {
 public:
@@ -16,9 +17,14 @@ public:
 
     void AddLight(LightSource &light);
 
-    void SetCamera(Point &point);
+    void SetCamera(Camera &camera);
 
     Image CreateImage(unsigned int height, unsigned int width);
+
+private:
+    std::vector<Primitive> objects_;
+    Camera camera_;
+    std::vector<LightSource> lights_;
 
 };
 
