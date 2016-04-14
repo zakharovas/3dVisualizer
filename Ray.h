@@ -10,6 +10,7 @@
 #include "Point.h"
 
 class Ray {
+public:
     Ray(Point point, Vector vector): point_(point), vector_(vector) {};
 private:
     Point point_;

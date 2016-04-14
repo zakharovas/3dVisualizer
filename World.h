@@ -14,11 +14,13 @@
 
 class World {
 public:
+    World() : camera_(Camera()) { };
+
     void AddPrimitive(std::unique_ptr<Primitive> &&primitive);
 
-    void AddLight(LightSource &light);
+    void AddLight(const LightSource &light);
 
-    void SetCamera(Camera camera);
+    void SetCamera(const Camera &camera);
 
     Image CreateImage(unsigned int height, unsigned int width);
 
@@ -27,6 +29,7 @@ private:
     Camera camera_;
     std::vector<LightSource> lights_;
 
+    std::vector<std::vector<Ray>> CalculateRays_(unsigned int height, unsigned int width);
 };
 
 

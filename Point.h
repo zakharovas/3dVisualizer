@@ -31,7 +31,12 @@ public:
 
     double Length() const;
 
+    Point HorizontalRotation(double angle) const;
+
+    Point VerticalRotation(double angle) const;
+
     Point operator=(const Point &point_);
+
 
 };
 

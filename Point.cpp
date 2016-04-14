@@ -45,25 +45,21 @@ Point Point::operator=(const Point &point_) {
     return Point(point_);
 }
 
+Point Point::HorizontalRotation(double angle) const {
+    double x_new = cos(angle) * x + sin(angle) * y;
+    double y_new = -sin(angle) * x + cos(angle) * y;
+    double z_new = z;
+    return Point(x_new, y_new, z_new);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Point Point::VerticalRotation(double angle) const {
+    double horizontal_angle = atan2(y, x);
+    Point new_point = HorizontalRotation(horizontal_angle);
+    double new_x = cos(angle) * new_point.x - sin(angle) * new_point.z;
+    double new_y = 0;
+    double new_z = sin(angle) * new_point.x + cos(angle) * new_point.z;
+    return Point(new_x, new_y, new_z).HorizontalRotation(-horizontal_angle);
+}
 
 
 
