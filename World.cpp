@@ -25,7 +25,7 @@ Image World::CreateImage(unsigned int height, unsigned int width) {
     return image_without_anti_aliasing.Smooth();
 }
 
-void World::AddPrimitive(std::shared_ptr<Primitive> &&primitive) {
+void World::AddPrimitive(const std::shared_ptr<Primitive> &primitive) {
     objects_.push_back(std::move(primitive));
 }
 

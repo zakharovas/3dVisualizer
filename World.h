@@ -16,7 +16,7 @@ class World {
 public:
     World() : camera_(Camera()) { };
 
-    void AddPrimitive(std::shared_ptr<Primitive> &&primitive);
+    void AddPrimitive(const std::shared_ptr<Primitive> &primitive);
 
     void AddLight(const LightSource &light);
 
