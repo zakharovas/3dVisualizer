@@ -29,12 +29,13 @@ void Color::AddLight(double lightness) {
     b_ = new_rgb_color.get_b();
 }
 
-Color::HslColor Color::ToHsl() const {
-    return Color::HslColor(Color(r_, g_, b_));
+HslColor Color::ToHsl() const {
+    return HslColor(Color(r_, g_, b_));
 }
 
+
 //formula from ru.wikipedia.org/wiki/HSL
-Color::HslColor::HslColor(const Color &color) {
+HslColor::HslColor(const Color &color) {
     double r = color.get_r() / 255.0;
     double g = color.get_g() / 255.0;
     double b = color.get_b() / 255.0;
@@ -57,11 +58,11 @@ Color::HslColor::HslColor(const Color &color) {
     }
 }
 
-void Color::HslColor::AddLight(double lightness) {
+void HslColor::AddLight(double lightness) {
     l_ = std::min(1.0, l_ + lightness);
 }
 
-Color Color::HslColor::ToRgb() const {
+Color HslColor::ToRgb() const {
     double q;
     if (l_ < 0.5) {
         q = l_ * (1.0 + s_);
@@ -98,6 +99,12 @@ Color Color::HslColor::ToRgb() const {
 
     return Color(r, g, b);
 }
+
+void HslColor::RemoveLight() {
+    h_ = 0;
+}
+
+
 
 
 

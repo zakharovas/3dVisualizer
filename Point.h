@@ -17,6 +17,8 @@ public:
 
     Point(const Point &point_);
 
+    Point();
+
     double DotProduct(const Point &point) const;
 
     Point CrossProduct(const Point &point) const;

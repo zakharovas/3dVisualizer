@@ -5,10 +5,9 @@
 #ifndef INC_3DVISUALIZER_COLOR_H
 #define INC_3DVISUALIZER_COLOR_H
 
+class HslColor;
 
 class Color {
-private:
-    class HslColor;
 public:
     Color(double r, double g, double b) : r_(r), g_(g), b_(b) { };
 
@@ -35,21 +34,23 @@ private:
     double g_;
     double b_;
 
-    class HslColor {
-    public:
-        HslColor(const Color &color);
 
-        void AddLight(double lightness);
-
-        Color ToRgb() const;
-
-
-    private:
-        double h_;
-        double s_;
-        double l_;
-    };
 };
 
+class HslColor {
+public:
+    HslColor(const Color &color);
+
+    void AddLight(double lightness);
+
+    Color ToRgb() const;
+
+    void RemoveLight();
+
+private:
+    double h_;
+    double s_;
+    double l_;
+};
 
 #endif //INC_3DVISUALIZER_COLOR_H

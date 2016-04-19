@@ -61,5 +61,9 @@ Point Point::VerticalRotation(double angle) const {
     return Point(new_x, new_y, new_z).HorizontalRotation(-horizontal_angle);
 }
 
+Point::Point() : Point(0, 0, 0) { }
+
+
+
 
 

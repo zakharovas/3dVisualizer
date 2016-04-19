@@ -12,6 +12,10 @@ class LightSource {
 public:
     LightSource(Point point, double intensity) : point_(point), intensity_(intensity) { };
 
+    Point get_source() const { return point_; }
+
+    double get_intensity() const { return intensity_; }
+
 private:
     Point point_;
     double intensity_;

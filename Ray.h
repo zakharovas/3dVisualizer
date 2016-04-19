@@ -11,7 +11,12 @@
 
 class Ray {
 public:
-    Ray(Point point, Vector vector): point_(point), vector_(vector) {};
+    Ray(Point point, Vector vector) : point_(point), vector_(vector) { };
+
+    Point get_point() const { return point_; }
+
+    Vector get_vector() const { return vector_; }
+
 private:
     Point point_;
     Vector vector_;

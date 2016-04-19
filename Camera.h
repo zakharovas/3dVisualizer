@@ -12,13 +12,16 @@ class Camera {
 public:
     Camera();
 
+
     double get_horizontal_angle() const {
         return horizontal_angle_;
     }
 
-    double get_vertical_angle() const {
-        return vertical_angle_;
-    }
+    double GetVerticalAngle(unsigned int height, unsigned int width);
+
+//    double get_vertical_angle() const {
+//        return vertical_angle_;
+//    }
 
     Point GetPoint() const {
         return point_;
@@ -30,7 +33,7 @@ public:
 
 private:
     double horizontal_angle_;
-    double vertical_angle_;
+//    double vertical_angle_;
     Point point_;
     Vector vector_;
 

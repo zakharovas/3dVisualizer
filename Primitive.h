@@ -16,7 +16,11 @@ public:
 
     virtual Point Intersect(const Ray &ray) const = 0;
 
-    virtual Color GetColor(const Point &point) const = 0;
+    virtual Color GetColor(const Point &point, const Vector &direction) const = 0;
+
+    virtual Vector GetNormal(const Point &point) const = 0;
+
+    virtual Point GetImportantPoint() const = 0;
 
 };
 
