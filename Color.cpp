@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "Color.h"
 
-double kEpsilon = 1e-6;
+const double kEpsilon = 1e-6;
 
 unsigned int Color::GetR() const {
     return static_cast<unsigned int>(round(r_));
