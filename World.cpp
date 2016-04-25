@@ -83,12 +83,13 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
     for (LightSource &light: lights_) {
         Vector vector_from_light_to_object = point_of_intersection - light.get_source();
         double power_of_light = light.get_intensity();
-        double angle = normal.DotProduct(vector_from_light_to_object);
+        double angle =
+                normal.DotProduct(vector_from_light_to_object) / normal.Length() / vector_from_light_to_object.Length();
         if (angle < 0) {
             continue;
         }
         power_of_light *= angle;
-        power_of_light /= vector_from_light_to_object.Length();
+        power_of_light /= vector_from_light_to_object.Length() * vector_from_light_to_object.Length();
         basic_color.AddLight(power_of_light);
     }
     return basic_color.ToRgb();

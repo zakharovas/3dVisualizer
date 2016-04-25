@@ -32,6 +32,10 @@ bool Triangle::TryToIntersect(const Ray &ray) const {
     if (second_coordinate < -Primitive::kAccuracy || second_coordinate > 1 + Primitive::kAccuracy) {
         return false;
     }
+    if (second_coordinate + first_coordinate < -Primitive::kAccuracy ||
+        second_coordinate + first_coordinate > 1 + Primitive::kAccuracy) {
+        return false;
+    }
     double ray_coordinate = edge2.DotProduct(q) * determinant;
     if (ray_coordinate < Primitive::kAccuracy) {
         return false;
@@ -51,6 +55,7 @@ Point Triangle::Intersect(const Ray &ray) const {
     Vector q = from_origin_to_vertex.CrossProduct(edge1);
     double second_coordinate = ray.get_vector().DotProduct(q) * determinant;
     assert(second_coordinate > -Primitive::kAccuracy && second_coordinate < 1 + Primitive::kAccuracy);
+    assert(first_coordinate + second_coordinate < 1 + Primitive::kAccuracy);
     double ray_coordinate = edge2.DotProduct(q) * determinant;
     assert(ray_coordinate > Primitive::kAccuracy);
     return ray.get_point() + ray.get_vector() * ray_coordinate;
@@ -79,6 +84,14 @@ void Triangle::SetInsideColor(const Color &color) {
 void Triangle::SetOutsideColor(const Color &color) {
     outside_color_ = color;
 }
+
+void Triangle::Move(const Vector &vector) {
+    point1_ = point1_ + vector;
+    point2_ = point2_ + vector;
+    point3_ = point3_ + vector;
+}
+
+
 
 
 

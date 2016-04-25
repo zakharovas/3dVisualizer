@@ -22,6 +22,8 @@ public:
 
     virtual Point GetImportantPoint() const = 0;
 
+    virtual void Move(const Vector &vector) = 0;
+
     static const double kAccuracy;
 };
 

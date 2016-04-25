@@ -23,7 +23,7 @@ Camera::Camera(Point upper_left_corner_, Point upper_right_corner_, Point lower_
     assert(left_vertical.CrossProduct(right_vertical).Length() < Primitive::kAccuracy);
 }
 
-Camera::Camera() : Camera(Point(0, 1, 1), Point(1, 0, 1), Point(0, 1, 0), Point(1, 0, 0), Point(-1, -1, 0)) { }
+Camera::Camera() : Camera(Point(0, 1, 1), Point(1, 0, 1), Point(0, 1, 0), Point(1, 0, 0), Point(-1, -1, 0.5)) { }
 
 
 

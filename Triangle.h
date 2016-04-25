@@ -26,6 +26,9 @@ public:
 
     virtual Point GetImportantPoint() const override;
 
+    virtual void Move(const Vector &vector) override;
+
+
 private:
     Point point1_;
     Point point2_;
