@@ -76,7 +76,7 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
     }
     Point point_of_intersection = object->Intersect(ray);
     HslColor basic_color = object->GetColor(point_of_intersection, ray.get_vector()).ToHsl();
-    basic_color.RemoveLight();
+//    basic_color.RemoveLight();
     Vector normal = object->GetNormal(point_of_intersection);
     if (ray.get_vector().DotProduct(normal) < 0) {
         normal = normal * -1;

@@ -6,14 +6,12 @@
 #define INC_3DVISUALIZER_POINT_H
 
 
-class Point {
-public:
+struct Point {
+    double x;
+    double y;
+    double z;
 
-    const double x;
-    const double y;
-    const double z;
-
-    Point(const double x_, const double y_, const double z_) : x(x_), y(y_), z(z_) { };
+    Point(double x_, double y_, double z_) : x(x_), y(y_), z(z_) { };
 
     Point(const Point &point_);
 
@@ -37,7 +35,6 @@ public:
 
     Point VerticalRotation(double angle) const;
 
-    Point operator=(const Point &point_);
 
 
 };

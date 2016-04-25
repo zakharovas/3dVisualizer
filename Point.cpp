@@ -41,9 +41,7 @@ double Point::Length() const {
 Point::Point(const Point &point_) : x(point_.x), y(point_.y), z(point_.z) {
 }
 
-Point Point::operator=(const Point &point_) {
-    return Point(point_);
-}
+
 
 Point Point::HorizontalRotation(double angle) const {
     double x_new = cos(angle) * x + sin(angle) * y;
@@ -54,7 +52,7 @@ Point Point::HorizontalRotation(double angle) const {
 
 Point Point::VerticalRotation(double angle) const {
     double horizontal_angle = atan2(y, x);
-    Point new_point = HorizontalRotation(horizontal_angle);
+    Point new_point(HorizontalRotation(horizontal_angle));
     double new_x = cos(angle) * new_point.x - sin(angle) * new_point.z;
     double new_y = 0;
     double new_z = sin(angle) * new_point.x + cos(angle) * new_point.z;

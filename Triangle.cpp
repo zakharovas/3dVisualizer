@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <assert.h>
 #include "Triangle.h"
 
 Triangle::Triangle(Point point1, Point point2, Point point3, Vector normal) : point1_(point1), point2_(point2),
@@ -12,14 +13,47 @@ Triangle::Triangle(Point point1, Point point2, Point point3, Vector normal) : po
                                                                               outside_color_(
                                                                                       Color::kDefaultOutsideColor) { }
 
+//Moeller-Trumbore intersection algorithm
 bool Triangle::TryToIntersect(const Ray &ray) const {
     if (fabs(ray.get_vector().DotProduct(normal_)) < Primitive::kAccuracy) {
         return false;
     }
+    Vector edge1 = point2_ - point1_;
+    Vector edge2 = point3_ - point1_;
+    Vector p = ray.get_vector().CrossProduct(edge2);
+    double determinant = 1 / edge1.DotProduct(p);
+    Vector from_origin_to_vertex = ray.get_point() - point1_;
+    double first_coordinate = from_origin_to_vertex.DotProduct(p) * determinant;
+    if (first_coordinate < -Primitive::kAccuracy || first_coordinate > 1 + Primitive::kAccuracy) {
+        return false;
+    }
+    Vector q = from_origin_to_vertex.CrossProduct(edge1);
+    double second_coordinate = ray.get_vector().DotProduct(q) * determinant;
+    if (second_coordinate < -Primitive::kAccuracy || second_coordinate > 1 + Primitive::kAccuracy) {
+        return false;
+    }
+    double ray_coordinate = edge2.DotProduct(q) * determinant;
+    if (ray_coordinate < Primitive::kAccuracy) {
+        return false;
+    }
+    return true;
 }
 
 Point Triangle::Intersect(const Ray &ray) const {
-    return Point();
+    assert(fabs(ray.get_vector().DotProduct(normal_)) > Primitive::kAccuracy);
+    Vector edge1 = point2_ - point1_;
+    Vector edge2 = point3_ - point1_;
+    Vector p = ray.get_vector().CrossProduct(edge2);
+    double determinant = 1 / edge1.DotProduct(p);
+    Vector from_origin_to_vertex = ray.get_point() - point1_;
+    double first_coordinate = from_origin_to_vertex.DotProduct(p) * determinant;
+    assert (first_coordinate > -Primitive::kAccuracy && first_coordinate < 1 + Primitive::kAccuracy);
+    Vector q = from_origin_to_vertex.CrossProduct(edge1);
+    double second_coordinate = ray.get_vector().DotProduct(q) * determinant;
+    assert(second_coordinate > -Primitive::kAccuracy && second_coordinate < 1 + Primitive::kAccuracy);
+    double ray_coordinate = edge2.DotProduct(q) * determinant;
+    assert(ray_coordinate > Primitive::kAccuracy);
+    return ray.get_point() + ray.get_vector() * ray_coordinate;
 }
 
 Color Triangle::GetColor(const Point &point, const Vector &direction) const {
