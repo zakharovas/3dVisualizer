@@ -75,11 +75,11 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
     }
     Point point_of_intersection = object->Intersect(ray);
     HslColor basic_color = object->GetColor(point_of_intersection, ray.get_vector()).ToHsl();
-    basic_color.RemoveLight();
     Vector normal = object->GetNormal(point_of_intersection);
     if (ray.get_vector().DotProduct(normal) < 0) {
         normal = normal * -1;
     }
+    double point_light = 0;
     for (LightSource &light: lights_) {
         Vector vector_from_light_to_object = point_of_intersection - light.get_source();
         double power_of_light = light.get_intensity();
@@ -90,7 +90,8 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
         }
         power_of_light *= angle;
         power_of_light /= vector_from_light_to_object.Length() * vector_from_light_to_object.Length();
-        basic_color.AddLight(power_of_light);
+        point_light += power_of_light;
     }
+    basic_color.AddLight(point_light);
     return basic_color.ToRgb();
 }

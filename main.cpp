@@ -35,7 +35,7 @@ int main() {
     perfect_world.AddPrimitive(triangle2);
     perfect_world.AddPrimitive(triangle3);
     perfect_world.AddPrimitive(triangle4);
-    LightSource light(Point(0, 0, 0), 10.5);
+    LightSource light(Point(0, 0, 0), 5.5);
 
     perfect_world.AddLight(light);
     Image image = perfect_world.CreateImage(height, width);
