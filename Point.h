@@ -13,7 +13,7 @@ struct Point {
 
     Point(double x_, double y_, double z_) : x(x_), y(y_), z(z_) { };
 
-    Point(const Point &point_);
+//    Point(const Point &point_);
 
     Point();
 

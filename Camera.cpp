@@ -3,21 +3,27 @@
 //
 
 #include <cmath>
+#include <assert.h>
 #include "Camera.h"
+#include "Primitive.h"
 
 const double kPi = 3.141592653589793238462643383279502884;
 
-Camera::Camera() : point_(Point(0, 0, 0)), vector_(Vector(1.0 / sqrt(2), 1.0 / sqrt(2), 0)),
-                   horizontal_angle_(2 * kPi / 3)/*,
-                   vertical_angle_(2 * kPi / 3)*/ { }
-
-double Camera::GetVerticalAngle(unsigned int height, unsigned int width) {
-    return horizontal_angle_ / height * width;
+Camera::Camera(Point upper_left_corner_, Point upper_right_corner_, Point lower_left_corner_, Point lower_right_corner_,
+               Point point_) : upper_left_corner_(upper_left_corner_),
+                               upper_right_corner_(upper_right_corner_),
+                               lower_left_corner_(lower_left_corner_),
+                               lower_right_corner_(lower_right_corner_),
+                               point_(point_) {
+    Vector upper_horizontal = upper_right_corner_ - upper_left_corner_;
+    Vector lower_horizontal = lower_right_corner_ - lower_left_corner_;
+    Vector left_vertical = upper_left_corner_ - lower_left_corner_;
+    Vector right_vertical = upper_right_corner_ - lower_right_corner_;
+    assert(upper_horizontal.CrossProduct(lower_horizontal).Length() < Primitive::kAccuracy);
+    assert(left_vertical.CrossProduct(right_vertical).Length() < Primitive::kAccuracy);
 }
 
-Camera::Camera(Point point, Vector vector, double horizontal_angle) : point_(point), vector_(vector / vector.Length()),
-                                                                      horizontal_angle_(horizontal_angle) { }
-
+Camera::Camera() : Camera(Point(0, 1, 1), Point(1, 0, 1), Point(0, 1, 0), Point(1, 0, 0), Point(-1, -1, 0)) { }
 
 
 

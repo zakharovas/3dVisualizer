@@ -31,16 +31,15 @@ void World::AddPrimitive(const std::shared_ptr<Primitive> &primitive) {
 
 std::vector<std::vector<Ray>> World::CalculateRays_(unsigned int height, unsigned int width) {
     std::vector<std::vector<Ray>> rays;
+    Vector camera_horizontal_vector = camera_.get_lower_right_corner_() - camera_.get_lower_left_corner_();
+    Vector camera_vertical_vector = camera_.get_lower_left_corner_() - camera_.get_upper_left_corner_();
     for (unsigned int y = 0; y < height; ++y) {
         std::vector<Ray> rays_of_same_horizontal;
         for (unsigned int x = 0; x < width; ++x) {
-            double horizontal_angle = -camera_.get_horizontal_angle() / 2
-                                      + camera_.get_horizontal_angle() * x / (width - 1);
-            double vertical_angle = camera_.GetVerticalAngle(height, width) / 2
-                                    - camera_.GetVerticalAngle(height, width) * y / (height - 1);
-            Vector rotated_vector = camera_.GetVector().HorizontalRotation(horizontal_angle);
-            rotated_vector = rotated_vector.VerticalRotation(vertical_angle);
-            rays_of_same_horizontal.push_back(Ray(camera_.GetPoint(), rotated_vector));
+            Point end_of_direction_vector =
+                    camera_.get_upper_left_corner_() + camera_horizontal_vector * x / (width - 1) +
+                    camera_vertical_vector * y / (height - 1);
+            rays_of_same_horizontal.push_back(Ray(camera_.get_point(), end_of_direction_vector - camera_.get_point()));
         }
         rays.push_back(rays_of_same_horizontal);
     }
@@ -76,7 +75,7 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
     }
     Point point_of_intersection = object->Intersect(ray);
     HslColor basic_color = object->GetColor(point_of_intersection, ray.get_vector()).ToHsl();
-//    basic_color.RemoveLight();
+    basic_color.RemoveLight();
     Vector normal = object->GetNormal(point_of_intersection);
     if (ray.get_vector().DotProduct(normal) < 0) {
         normal = normal * -1;

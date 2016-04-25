@@ -12,35 +12,35 @@ class Camera {
 public:
     Camera();
 
-    Camera(Point point, Vector vector, double horizontal_angle);
+    Camera(Point upper_left_corner_, Point upper_right_corner_, Point lower_left_corner_,
+           Point lower_right_corner_, Point point_);
 
-
-    double get_horizontal_angle() const {
-        return horizontal_angle_;
+    Point get_upper_left_corner_() const {
+        return upper_left_corner_;
     }
 
-    double GetVerticalAngle(unsigned int height, unsigned int width);
+    Point get_upper_right_corner_() const {
+        return upper_right_corner_;
+    }
 
-//    double get_vertical_angle() const {
-//        return vertical_angle_;
-//    }
+    Point get_lower_left_corner_() const {
+        return lower_left_corner_;
+    }
 
-    Point GetPoint() const {
+    Point get_lower_right_corner_() const {
+        return lower_right_corner_;
+    }
+
+    Point get_point() const {
         return point_;
     }
 
-    Vector GetVector() const {
-        return vector_;
-    }
-
 private:
-    double horizontal_angle_;
-//    double vertical_angle_;
+    Point upper_left_corner_;
+    Point upper_right_corner_;
+    Point lower_left_corner_;
+    Point lower_right_corner_;
     Point point_;
-    Vector vector_;
-
-public:
-
 };
 
 

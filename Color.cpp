@@ -101,7 +101,7 @@ Color HslColor::ToRgb() const {
 }
 
 void HslColor::RemoveLight() {
-    h_ = 0;
+    l_ = 0;
 }
 
 const Color Color::kDefaultOutsideColor = Color(128, 128, 128);
