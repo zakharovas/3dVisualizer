@@ -12,6 +12,8 @@ class Camera {
 public:
     Camera();
 
+    Camera(Point point, Vector vector, double horizontal_angle);
+
 
     double get_horizontal_angle() const {
         return horizontal_angle_;

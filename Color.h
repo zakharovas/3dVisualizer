@@ -9,7 +9,7 @@ class HslColor;
 
 class Color {
 public:
-    
+
     Color(double r, double g, double b) : r_(r), g_(g), b_(b) { };
 
     Color() : r_(0), g_(0), b_(0) { };
@@ -30,6 +30,10 @@ public:
     void AddLight(double lightness);
 
     HslColor ToHsl() const;
+
+    static const Color kDefaultOutsideColor;
+
+    static const Color kDefaultInsideColor;
 
 private:
     double r_;

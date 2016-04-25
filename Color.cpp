@@ -104,7 +104,9 @@ void HslColor::RemoveLight() {
     h_ = 0;
 }
 
+const Color Color::kDefaultOutsideColor = Color(128, 128, 128);
 
+const Color Color::kDefaultInsideColor = Color(255, 0, 0);
 
 
 

@@ -71,8 +71,8 @@ std::shared_ptr<Primitive> World::FindClosestPrimitive(const Ray &ray) {
 }
 
 Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray &ray) {
-    if (object.get() == nullptr) {
-        return Color(0, 0, 0);
+    if (object == nullptr) {
+        return Color();
     }
     Point point_of_intersection = object->Intersect(ray);
     HslColor basic_color = object->GetColor(point_of_intersection, ray.get_vector()).ToHsl();
@@ -94,22 +94,3 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
     }
     return basic_color.ToRgb();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

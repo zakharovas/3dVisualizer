@@ -13,5 +13,10 @@ double Camera::GetVerticalAngle(unsigned int height, unsigned int width) {
     return horizontal_angle_ / height * width;
 }
 
+Camera::Camera(Point point, Vector vector, double horizontal_angle) : point_(point), vector_(vector / vector.Length()),
+                                                                      horizontal_angle_(horizontal_angle) { }
+
+
+
 
 

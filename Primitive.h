@@ -22,6 +22,7 @@ public:
 
     virtual Point GetImportantPoint() const = 0;
 
+    static const double kAccuracy;
 };
 
 
