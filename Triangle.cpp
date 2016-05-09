@@ -61,7 +61,7 @@ Point Triangle::Intersect(const Ray &ray) const {
 }
 
 Color Triangle::GetColor(const Point &point, const Vector &direction) const {
-    if (direction.DotProduct(normal_) > -Primitive::kAccuracy) {
+    if (direction.DotProduct(normal_) < Primitive::kAccuracy) {
         return outside_color_;
     } else {
         return inside_color_;

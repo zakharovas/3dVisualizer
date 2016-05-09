@@ -63,7 +63,7 @@ Point Parallelogram::Intersect(const Ray &ray) const {
 }
 
 Color Parallelogram::GetColor(const Point &point, const Vector &direction) const {
-    if (direction.DotProduct(normal_) > -Primitive::kAccuracy) {
+    if (direction.DotProduct(normal_) < Primitive::kAccuracy) {
         return outside_color_;
     } else {
         return inside_color_;

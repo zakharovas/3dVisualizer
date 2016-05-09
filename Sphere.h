@@ -1,17 +1,17 @@
 //
-// Created by User on 25.04.2016.
+// Created by User on 09.05.2016.
 //
 
-#ifndef INC_3DVISUALIZER_PARALLELOGRAM_H
-#define INC_3DVISUALIZER_PARALLELOGRAM_H
+#ifndef INC_3DVISUALIZER_SPHERE_H
+#define INC_3DVISUALIZER_SPHERE_H
 
 
 #include "Primitive.h"
 
-class Parallelogram : public Primitive {
+class Sphere : public Primitive {
 
 public:
-    Parallelogram(Point point1, Point point2, Point point3, Point point4, Vector normal);
+    Sphere(Point center, double radius);
 
     virtual bool TryToIntersect(const Ray &ray) const override;
 
@@ -25,19 +25,18 @@ public:
 
     virtual void Move(const Vector &vector) override;
 
-    virtual void SetInsideColor(const Color &color) override;
-
     virtual void SetOutsideColor(const Color &color) override;
 
+    virtual void SetInsideColor(const Color &color) override;
+
+
 private:
-    Point point1_;
-    Point point2_;
-    Point point3_;
-    Point point4_;
-    Vector normal_;
-    Color inside_color_;
+    Point center_;
+    double radius_;
     Color outside_color_;
+    Color inside_color_;
+
 };
 
 
-#endif //INC_3DVISUALIZER_PARALLELOGRAM_H
+#endif //INC_3DVISUALIZER_SPHERE_H

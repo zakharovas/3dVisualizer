@@ -24,6 +24,10 @@ public:
 
     virtual void Move(const Vector &vector) = 0;
 
+    virtual void SetOutsideColor(const Color &color) = 0;
+
+    virtual void SetInsideColor(const Color &color) = 0;
+
     static const double kAccuracy;
 };
 

@@ -12,9 +12,9 @@ class Triangle : public Primitive {
 public:
     Triangle(Point point1, Point point2, Point point3, Vector normal);
 
-    void SetInsideColor(const Color &color);
+    virtual void SetInsideColor(const Color &color) override;
 
-    void SetOutsideColor(const Color &color);
+    virtual void SetOutsideColor(const Color &color) override;
 
     virtual bool TryToIntersect(const Ray &ray) const override;
 

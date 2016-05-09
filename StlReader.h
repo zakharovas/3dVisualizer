@@ -24,6 +24,10 @@ private:
 
 private:
     std::ifstream input_stream_;
+
+    std::shared_ptr<Primitive> ReadTriangle_();
+
+    std::vector<Point> ReadVertexes_();
 };
 
 
