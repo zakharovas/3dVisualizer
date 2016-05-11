@@ -22,6 +22,10 @@ public:
 
     virtual Color GetColor(const Point &point, const Vector &direction) const override;
 
+    virtual double GetMinCoordinate(size_t number_of_coordinate) const override;
+
+    virtual double GetMaxCoordinate(size_t number_of_coordinate) const override;
+
     virtual Vector GetNormal(const Point &point) const override;
 
     virtual Point GetImportantPoint() const override;

@@ -4,6 +4,8 @@
 
 #include <cmath>
 #include <assert.h>
+#include <vector>
+#include <algorithm>
 #include "Triangle.h"
 
 Triangle::Triangle(Point point1, Point point2, Point point3, Vector normal) : point1_(point1), point2_(point2),
@@ -89,6 +91,52 @@ void Triangle::Move(const Vector &vector) {
     point2_ = point2_ + vector;
     point3_ = point3_ + vector;
 }
+
+double Triangle::GetMinCoordinate(size_t number_of_coordinate) const {
+    assert(number_of_coordinate < 3);
+    std::vector<double> numbers;
+    if (number_of_coordinate == 0) {
+        numbers.push_back(point1_.x);
+        numbers.push_back(point2_.x);
+        numbers.push_back(point3_.x);
+    }
+    if (number_of_coordinate == 1) {
+        numbers.push_back(point1_.y);
+        numbers.push_back(point2_.y);
+        numbers.push_back(point3_.y);
+    }
+    if (number_of_coordinate == 2) {
+        numbers.push_back(point1_.z);
+        numbers.push_back(point2_.z);
+        numbers.push_back(point3_.z);
+    }
+    return *std::min_element(numbers.begin(), numbers.end());
+}
+
+double Triangle::GetMaxCoordinate(size_t number_of_coordinate) const {
+    assert(number_of_coordinate < 3);
+    std::vector<double> numbers;
+    if (number_of_coordinate == 0) {
+        numbers.push_back(point1_.x);
+        numbers.push_back(point2_.x);
+        numbers.push_back(point3_.x);
+    }
+    if (number_of_coordinate == 1) {
+        numbers.push_back(point1_.y);
+        numbers.push_back(point2_.y);
+        numbers.push_back(point3_.y);
+    }
+    if (number_of_coordinate == 2) {
+        numbers.push_back(point1_.z);
+        numbers.push_back(point2_.z);
+        numbers.push_back(point3_.z);
+    }
+    return *std::max_element(numbers.begin(), numbers.end());
+}
+
+
+
+
 
 
 

@@ -21,8 +21,6 @@ public:
     ~StlReader();
 
 private:
-
-private:
     std::ifstream input_stream_;
 
     std::shared_ptr<Primitive> ReadTriangle_();

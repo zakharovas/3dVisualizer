@@ -6,6 +6,7 @@
 #define INC_3DVISUALIZER_PRIMITIVE_H
 
 
+#include <cstdlib>
 #include "Color.h"
 #include "Ray.h"
 #include "Point.h"
@@ -22,11 +23,16 @@ public:
 
     virtual Point GetImportantPoint() const = 0;
 
+    virtual double GetMinCoordinate(size_t number_of_coordinate) const = 0;
+
+    virtual double GetMaxCoordinate(size_t number_of_coordinate) const = 0;
+
     virtual void Move(const Vector &vector) = 0;
 
     virtual void SetOutsideColor(const Color &color) = 0;
 
     virtual void SetInsideColor(const Color &color) = 0;
+
 
     static const double kAccuracy;
 };
