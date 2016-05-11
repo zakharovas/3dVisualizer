@@ -13,6 +13,11 @@ class Sphere : public Primitive {
 public:
     Sphere(Point center, double radius);
 
+    virtual double GetMinCoordinate(size_t number_of_coordinate) const override;
+
+    virtual double GetMaxCoordinate(size_t number_of_coordinate) const override;
+
+
     virtual bool TryToIntersect(const Ray &ray) const override;
 
     virtual Point Intersect(const Ray &ray) const override;

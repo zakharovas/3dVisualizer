@@ -29,6 +29,11 @@ public:
 
     virtual void SetOutsideColor(const Color &color) override;
 
+    virtual double GetMinCoordinate(size_t number_of_coordinate) const override;
+
+    virtual double GetMaxCoordinate(size_t number_of_coordinate) const override;
+
+
 private:
     Point point1_;
     Point point2_;

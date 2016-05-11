@@ -87,6 +87,46 @@ Sphere::Sphere(Point center, double radius) : center_(center), radius_(radius),
 
 }
 
+double Sphere::GetMinCoordinate(size_t number_of_coordinate) const {
+    assert(number_of_coordinate < 3);
+    switch (number_of_coordinate) {
+        case 0:
+            return center_.x - radius_;
+            break;
+        case 1:
+            return center_.y - radius_;
+            break;
+        case 2:
+            return center_.z - radius_;
+            break;
+        default:
+            return -1;
+            break;
+    }
+}
+
+double Sphere::GetMaxCoordinate(size_t number_of_coordinate) const {
+    assert(number_of_coordinate < 3);
+    switch (number_of_coordinate) {
+        case 0:
+            return center_.x + radius_;
+            break;
+        case 1:
+            return center_.y + radius_;
+            break;
+        case 2:
+            return center_.z + radius_;
+            break;
+        default:
+            return -1;
+            break;
+    }
+}
+
+
+
+
+
 
 
 

@@ -24,8 +24,8 @@ World RtReader::CreateWorld() {
         std::string name;
         input_stream_ >> name;
         if (name == "facet") {
-            std::shared_ptr<Primitive> triangle = ReadTriangle_();
-            new_world.AddPrimitive(triangle);
+//            std::shared_ptr<Primitive> triangle = ReadTriangle_();
+//            new_world.AddPrimitive(triangle);
         }
 
 

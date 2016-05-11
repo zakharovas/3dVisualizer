@@ -4,6 +4,8 @@
 
 #include <assert.h>
 #include <cmath>
+#include <vector>
+#include <algorithm>
 #include "Parallelogram.h"
 
 Parallelogram::Parallelogram(Point point1, Point point2,
@@ -92,6 +94,58 @@ void Parallelogram::SetInsideColor(const Color &color) {
 void Parallelogram::SetOutsideColor(const Color &color) {
     outside_color_ = color;
 }
+
+double Parallelogram::GetMinCoordinate(size_t number_of_coordinate) const {
+    assert(number_of_coordinate < 3);
+    std::vector<double> numbers;
+    if (number_of_coordinate == 0) {
+        numbers.push_back(point1_.x);
+        numbers.push_back(point2_.x);
+        numbers.push_back(point3_.x);
+        numbers.push_back(point4_.x);
+    }
+    if (number_of_coordinate == 1) {
+        numbers.push_back(point1_.y);
+        numbers.push_back(point2_.y);
+        numbers.push_back(point3_.y);
+        numbers.push_back(point4_.y);
+    }
+    if (number_of_coordinate == 2) {
+        numbers.push_back(point1_.z);
+        numbers.push_back(point2_.z);
+        numbers.push_back(point3_.z);
+        numbers.push_back(point4_.z);
+    }
+    return *std::min_element(numbers.begin(), numbers.end());
+}
+
+double Parallelogram::GetMaxCoordinate(size_t number_of_coordinate) const {
+    assert(number_of_coordinate < 3);
+    std::vector<double> numbers;
+    if (number_of_coordinate == 0) {
+        numbers.push_back(point1_.x);
+        numbers.push_back(point2_.x);
+        numbers.push_back(point3_.x);
+        numbers.push_back(point4_.x);
+    }
+    if (number_of_coordinate == 1) {
+        numbers.push_back(point1_.y);
+        numbers.push_back(point2_.y);
+        numbers.push_back(point3_.y);
+        numbers.push_back(point4_.y);
+    }
+    if (number_of_coordinate == 2) {
+        numbers.push_back(point1_.z);
+        numbers.push_back(point2_.z);
+        numbers.push_back(point3_.z);
+        numbers.push_back(point4_.z);
+    }
+    return *std::max_element(numbers.begin(), numbers.end());
+}
+
+
+
+
 
 
 

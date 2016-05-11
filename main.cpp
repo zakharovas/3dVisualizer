@@ -56,7 +56,7 @@ int main() {
 //    perfect_world.AddPrimitive(triangle2);
 //    perfect_world.AddPrimitive(triangle3);
 //    perfect_world.AddPrimitive(triangle4);
-    LightSource light(Point(0, 0, 0), 10.5);
+    LightSource light(Point(0, 0, 10), 100.5);
 //
 
     std::shared_ptr<Primitive> sphere(new Sphere(Point(3, 3, 0), 0.5));
