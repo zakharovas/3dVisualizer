@@ -23,10 +23,15 @@ World RtReader::CreateWorld() {
     while (!input_stream_.eof()) {
         std::string name;
         input_stream_ >> name;
-        if (name == "facet") {
-//            std::shared_ptr<Primitive> triangle = ReadTriangle_();
-//            new_world.AddPrimitive(triangle);
-        }
+//        if (name == "geometry") {
+////            std::vector<std::shared_ptr<Primitive>> objects = ReadPrimitives()_;
+//            for (std::shared_ptr<Primitive> object: ReadPrimitives_()) {
+//                new_world.AddPrimitive(object);
+//            }
+//        }
+//        if (name == "lights") {
+//            for (LightSource )
+//        }
 
 
         //TODO reader
@@ -74,6 +79,12 @@ Camera RtReader::ReadCamera_() {
     input_stream_ >> s;
     return Camera(top_left, top_right, bottom_left, bottom_right, origin);
 }
+
+std::shared_ptr<Primitive> RtReader::ReadTriangle_() {
+    return std::shared_ptr<Primitive>();
+}
+
+
 
 
 

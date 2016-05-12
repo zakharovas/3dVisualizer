@@ -8,7 +8,7 @@
 #include <future>
 #include "KdTree.h"
 
-KdTree::KdTree(const std::vector<std::shared_ptr<Primitive>> &objects) : objects_(objects), kNumberOfSplitPoints(30) {
+KdTree::KdTree(const std::vector<std::shared_ptr<Primitive>> &objects) : objects_(objects), kNumberOfSplitPoints(10) {
     std::function<bool(const PointWithNumber &, const PointWithNumber &)> x_compare = [](const PointWithNumber &a,
                                                                                          const PointWithNumber &b) -> bool {
         return (a.point_.x < b.point_.x);
@@ -109,12 +109,12 @@ std::shared_ptr<Primitive> KdTree::FindIntersection_(std::shared_ptr<Node> verte
         if (object->TryToIntersect(ray)) {
             Point intersection = object->Intersect(ray);
             Vector normal = object->GetNormal(intersection);
-//            if (normal.DotProduct(ray.get_vector()) < -Primitive::kAccuracy) {
+            if (normal.DotProduct(ray.get_vector()) < -Primitive::kAccuracy) {
                 double distance = (ray.get_point() - intersection).Length();
                 if (current_best.distance > distance) {
                     current_best.object = object;
                     current_best.distance = distance;
-//                }
+                }
             }
         }
     }

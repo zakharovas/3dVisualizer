@@ -11,13 +11,7 @@
 
 class Material {
 public:
-    Material(const std::string &name, const Color &color, double reflect, double refract) : name(name), color(color),
-                                                                                            reflect(reflect),
-                                                                                            refract(refract) { }
-
-    std::string get_name() const {
-        return name;
-    }
+    Material(const Color &color, double reflect, double refract) : color(color), reflect(reflect), refract(refract) { }
 
     const Color get_color() const {
         return color;
@@ -33,7 +27,6 @@ public:
 
 
 private:
-    std::string name;
     Color color;
     double reflect;
     double refract;

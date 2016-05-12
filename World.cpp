@@ -70,10 +70,12 @@ Color World::CalculateColor_(const Ray &ray, size_t depth) {
     }
     Point point_of_intersection = best_primitive->Intersect(ray);
     Color basic_color = best_primitive->GetColor(point_of_intersection, ray.get_vector());
-//    if (depth < 1) {
-//        Color reflex_color = Reflect_(best_primitive, ray, depth + 1, best_primitive->GetMaterial().get_reflect());
-//        basic_color = basic_color.Mix(reflex_color, best_primitive->GetMaterial().get_reflect());
-//    }
+    if (depth < 10) {
+        if (best_primitive->GetMaterial().get_reflect() > Primitive::kAccuracy) {
+            Color reflex_color = Reflect_(best_primitive, ray, depth + 1, best_primitive->GetMaterial().get_reflect());
+            basic_color = basic_color.Mix(reflex_color, best_primitive->GetMaterial().get_reflect());
+        }
+    }
     return CalculateLight_(best_primitive, ray, basic_color);
 }
 
@@ -86,6 +88,8 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
         normal = normal * -1;
     }
     double point_light = 0;
+    basic_color.RemoveLight();
+    basic_color.AddLight(1e-3);
     for (LightSource &light: lights_) {
         Vector vector_from_light_to_object = point_of_intersection - light.get_source();
         Ray light_ray(light.get_source(), vector_from_light_to_object);
@@ -109,3 +113,15 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
     basic_color.AddLight(point_light);
     return basic_color.ToRgb();
 }
+
+Color World::Reflect_(std::shared_ptr<Primitive> object, const Ray &ray, size_t depth, double reflect) {
+    Point point = object->Intersect(ray);
+    Vector normal = object->GetNormal(point);
+    double product = -normal.DotProduct(ray.get_vector()) / normal.Length();
+    normal = normal * product;
+    Vector delta = ray.get_vector() + normal;
+    Vector reflected = (ray.get_vector() * -1) + (delta * 2);
+    Ray reflected_ray(point, reflected);
+    return CalculateColor_(reflected_ray, depth);
+}
+

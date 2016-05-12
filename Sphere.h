@@ -26,26 +26,21 @@ public:
 
     virtual Vector GetNormal(const Point &point) const override;
 
-    virtual Point GetImportantPoint() const override;
-
     virtual void Move(const Vector &vector) override;
 
     virtual void SetOutsideColor(const Color &color) override;
 
-    virtual void SetMaterial(const Material &material) override {
+    virtual void SetMaterial(const Material &material) override;
 
-    }
-
-    virtual Material GetMaterial() const override {
-        return Material("", Color(), 0, 0);
-    }
+    virtual Material GetMaterial() const override;
 
 private:
     Point center_;
     double radius_;
     Color outside_color_;
     Color inside_color_;
-
+    bool set_material_;
+    Material material_;
 };
 
 

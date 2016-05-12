@@ -42,6 +42,8 @@ private:
     };
 
     Color CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray &ray, const Color &basic_color_rgb);
+
+    Color Reflect_(std::shared_ptr<Primitive> object, const Ray &ray, size_t depth, double reflect);
 };
 
 

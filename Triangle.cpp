@@ -13,7 +13,9 @@ Triangle::Triangle(Point point1, Point point2, Point point3, Vector normal) : po
                                                                               normal_(normal / normal.Length()),
                                                                               inside_color_(Color::kDefaultInsideColor),
                                                                               outside_color_(
-                                                                                      Color::kDefaultOutsideColor) { }
+                                                                                      Color::kDefaultOutsideColor),
+                                                                              material_(Color::kDefaultOutsideColor, 0,
+                                                                                        0), set_material_(false) { }
 
 //Moeller-Trumbore intersection algorithm
 bool Triangle::TryToIntersect(const Ray &ray) const {
@@ -74,10 +76,6 @@ Vector Triangle::GetNormal(const Point &point) const {
     return normal_;
 }
 
-Point Triangle::GetImportantPoint() const {
-    return (point1_ + point2_ + point3_) / 3;
-}
-
 
 void Triangle::SetOutsideColor(const Color &color) {
     outside_color_ = color;
@@ -130,6 +128,19 @@ double Triangle::GetMaxCoordinate(size_t number_of_coordinate) const {
     }
     return *std::max_element(numbers.begin(), numbers.end());
 }
+
+void Triangle::SetMaterial(const Material &material) {
+    set_material_ = true;
+    material_ = material;
+}
+
+Material Triangle::GetMaterial() const {
+    return material_;
+}
+
+
+
+
 
 
 

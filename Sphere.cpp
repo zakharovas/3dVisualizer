@@ -54,7 +54,11 @@ Point Sphere::Intersect(const Ray &ray) const {
 Color Sphere::GetColor(const Point &point, const Vector &direction) const {
     Vector normal = point - center_;
     if (normal.DotProduct(direction) < 0) {
-        return outside_color_;
+        if (set_material_) {
+            return material_.get_color();
+        } else {
+            return outside_color_;
+        }
     } else {
         return inside_color_;
     }
@@ -62,10 +66,6 @@ Color Sphere::GetColor(const Point &point, const Vector &direction) const {
 
 Vector Sphere::GetNormal(const Point &point) const {
     return (point - center_) / radius_;
-}
-
-Point Sphere::GetImportantPoint() const {
-    return center_;
 }
 
 void Sphere::Move(const Vector &vector) {
@@ -78,7 +78,8 @@ void Sphere::SetOutsideColor(const Color &color) {
 
 Sphere::Sphere(Point center, double radius) : center_(center), radius_(radius),
                                               inside_color_(Color::kDefaultInsideColor),
-                                              outside_color_(Color::kDefaultOutsideColor) {
+                                              outside_color_(Color::kDefaultOutsideColor),
+                                              material_(Color::kDefaultOutsideColor, 0, 0), set_material_(false) {
     assert(radius > Primitive::kAccuracy);
 
 }
@@ -118,6 +119,19 @@ double Sphere::GetMaxCoordinate(size_t number_of_coordinate) const {
             break;
     }
 }
+
+Material Sphere::GetMaterial() const {
+    return material_;
+}
+
+void Sphere::SetMaterial(const Material &material) {
+    set_material_ = true;
+    material_ = material;
+}
+
+
+
+
 
 
 

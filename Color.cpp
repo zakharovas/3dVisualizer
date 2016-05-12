@@ -59,7 +59,7 @@ HslColor::HslColor(const Color &color) {
 }
 
 void HslColor::AddLight(double lightness) {
-    l_ = std::min(1.0, l_ * lightness);
+    l_ = std::min(1.0, l_ + lightness);
 }
 
 Color HslColor::ToRgb() const {

@@ -13,9 +13,9 @@
 int main(int argc, char *argv[]) {
     std::string filename = argv[1];
     StlReader reader(filename);
-//    Camera camera(Point(-100, 0, 200), Point(100, 0, 200), Point(-100, 0, 0), Point(100, 0, 0), Point(0, -300, 100));
+    Camera camera(Point(-100, 0, 200), Point(100, 0, 200), Point(-100, 0, 0), Point(100, 0, 0), Point(0, -300, 100));
     World perfect_world = reader.CreateWorld();
-//    perfect_world.SetCamera(camera);
+    perfect_world.SetCamera(camera);
 //    Point point = Point(1, 1, 0);
 //    Sphere sph1(point, 2);
 //    Ray ray(Point(-1,-1,0), Vector(1,1,0));

@@ -13,7 +13,9 @@ Parallelogram::Parallelogram(Point point1, Point point2,
                                                                           point2_(point2),
                                                                           point3_(point3),
                                                                           point4_(point4),
-                                                                          normal_(normal / normal.Length()) {
+                                                                          normal_(normal / normal.Length()),
+                                                                          material_(Color::kDefaultOutsideColor, 0, 0),
+                                                                          set_material_(false) {
     Vector horizontal_vector1 = point2_ - point1_;;
     Vector horizontal_vector2 = point3_ - point4_;
     Vector vertical_vector1 = point3_ - point2_;
@@ -66,7 +68,11 @@ Point Parallelogram::Intersect(const Ray &ray) const {
 
 Color Parallelogram::GetColor(const Point &point, const Vector &direction) const {
     if (direction.DotProduct(normal_) < Primitive::kAccuracy) {
-        return outside_color_;
+        if (set_material_) {
+            return material_.get_color();
+        } else {
+            return outside_color_;
+        }
     } else {
         return inside_color_;
     }
@@ -74,10 +80,6 @@ Color Parallelogram::GetColor(const Point &point, const Vector &direction) const
 
 Vector Parallelogram::GetNormal(const Point &point) const {
     return normal_;
-}
-
-Point Parallelogram::GetImportantPoint() const {
-    return (point1_ + point2_ + point3_ + point4_) / 4;
 }
 
 void Parallelogram::Move(const Vector &vector) {
@@ -138,6 +140,19 @@ double Parallelogram::GetMaxCoordinate(size_t number_of_coordinate) const {
     }
     return *std::max_element(numbers.begin(), numbers.end());
 }
+
+void Parallelogram::SetMaterial(const Material &material) {
+    set_material_ = true;
+    material_ = material;
+}
+
+Material Parallelogram::GetMaterial() const {
+    return material_;
+}
+
+
+
+
 
 
 

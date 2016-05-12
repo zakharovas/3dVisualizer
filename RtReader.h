@@ -24,7 +24,6 @@ class RtReader {
 private:
     std::ifstream input_stream_;
     std::map<std::string, Material> materials;
-    std::vector<std::shared_ptr<Primitive> > objects_;
 
     std::shared_ptr<Primitive> ReadTriangle_();
 

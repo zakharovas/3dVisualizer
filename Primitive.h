@@ -22,8 +22,6 @@ public:
 
     virtual Vector GetNormal(const Point &point) const = 0;
 
-    virtual Point GetImportantPoint() const = 0;
-
     virtual double GetMinCoordinate(size_t number_of_coordinate) const = 0;
 
     virtual double GetMaxCoordinate(size_t number_of_coordinate) const = 0;
