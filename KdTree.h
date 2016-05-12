@@ -63,7 +63,7 @@ private:
         size_t coordinate;
     };
 
-    static const kNumberOfSplitPoints;
+    const double kNumberOfSplitPoints;
 
     std::vector<std::shared_ptr<Primitive>> objects_;
     std::shared_ptr<Node> root_;
@@ -86,6 +86,10 @@ private:
     bool TryToSplit_(const std::vector<std::shared_ptr<Primitive>> &objects);
 
     Splitter Split_(const std::vector<std::shared_ptr<Primitive>> &objects);
+
+    bool TryToSplit_(const Splitter &splitter, const std::vector<std::shared_ptr<Primitive>> &objects);
+
+    double CountCost_(const std::vector<std::shared_ptr<Primitive>> &objects);
 };
 
 
