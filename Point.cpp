@@ -60,6 +60,13 @@ Point Point::VerticalRotation(double angle) const {
 
 Point::Point() : Point(0, 0, 0) { }
 
+bool Point::operator==(Point another_point) const {
+    return (fabs(x - another_point.x) < 1e-9) && (fabs(y - another_point.y) < 1e-9) &&
+           (fabs(z - another_point.z) < 1e-9);
+}
+
+
+
 
 
 

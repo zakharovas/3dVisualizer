@@ -83,11 +83,7 @@ private:
     void UpdateExtremePointsOnObjects_(const std::vector<std::shared_ptr<Primitive>> &objects,
                                        std::vector<double> &max_coordinates, std::vector<double> &min_coordinates);
 
-    bool TryToSplit_(const std::vector<std::shared_ptr<Primitive>> &objects);
-
     Splitter Split_(const std::vector<std::shared_ptr<Primitive>> &objects);
-
-    bool TryToSplit_(const Splitter &splitter, const std::vector<std::shared_ptr<Primitive>> &objects);
 
     double CountCost_(const std::vector<std::shared_ptr<Primitive>> &objects);
 };

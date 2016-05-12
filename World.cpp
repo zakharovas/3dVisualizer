@@ -28,10 +28,10 @@ Image World::CreateImage(unsigned int height, unsigned int width) {
     std::cout << "Kd Tree has been built in " << elapsed_seconds << " ms" << std::endl;
     std::cout << "Building image started" << std::endl;
     start_of_building = std::chrono::system_clock::now();
-    Image image_without_anti_aliasing(height + 1, width + 1);
-    std::vector<std::vector<Ray>> rays = CalculateRays_(height + 1, width + 1);
-    for (unsigned int y = 0; y < height + 1; ++y) {
-        for (unsigned int x = 0; x < width + 1; ++x) {
+    Image image_without_anti_aliasing(height, width);
+    std::vector<std::vector<Ray>> rays = CalculateRays_(height, width);
+    for (unsigned int y = 0; y < height; ++y) {
+        for (unsigned int x = 0; x < width; ++x) {
             image_without_anti_aliasing.SetPixel(x, y, CalculateColor_(rays[y][x], 0));
         }
     }
@@ -39,7 +39,7 @@ Image World::CreateImage(unsigned int height, unsigned int width) {
     elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>
             (end_of_building - start_of_building).count();
     std::cout << "Image has been built in " << elapsed_seconds << " ms" << std::endl;
-    return image_without_anti_aliasing.Smooth();
+    return image_without_anti_aliasing;
 }
 
 void World::AddPrimitive(std::shared_ptr<Primitive> primitive) {
@@ -88,15 +88,23 @@ Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray
     double point_light = 0;
     for (LightSource &light: lights_) {
         Vector vector_from_light_to_object = point_of_intersection - light.get_source();
-        double power_of_light = light.get_intensity();
-        double angle =
-                normal.DotProduct(vector_from_light_to_object) / normal.Length() / vector_from_light_to_object.Length();
-        if (angle < 0) {
-            continue;
+        Ray light_ray(light.get_source(), vector_from_light_to_object);
+        if (tree->FindIntersection(light_ray) == object) {
+            Point real_intersection = object->Intersect(light_ray);
+            if (!(real_intersection == point_of_intersection)) {
+                continue;
+            }
+            double power_of_light = light.get_intensity();
+            double angle =
+                    normal.DotProduct(vector_from_light_to_object) / normal.Length() /
+                    vector_from_light_to_object.Length();
+            if (angle < 0) {
+                continue;
+            }
+            power_of_light *= angle;
+            power_of_light /= vector_from_light_to_object.Length() * vector_from_light_to_object.Length();
+            point_light += power_of_light;
         }
-        power_of_light *= angle;
-        power_of_light /= vector_from_light_to_object.Length() * vector_from_light_to_object.Length();
-        point_light += power_of_light;
     }
     basic_color.AddLight(point_light);
     return basic_color.ToRgb();

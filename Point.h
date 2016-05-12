@@ -35,6 +35,7 @@ struct Point {
 
     Point VerticalRotation(double angle) const;
 
+    bool operator==(Point another_point) const;
 
 
 };

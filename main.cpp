@@ -10,8 +10,8 @@
 #include "StlReader.h"
 
 
-int main() {
-    std::string filename = "C:\\Easy.stl";
+int main(int argc, char *argv[]) {
+    std::string filename = argv[1];
     StlReader reader(filename);
 //    Camera camera(Point(-100, 0, 200), Point(100, 0, 200), Point(-100, 0, 0), Point(100, 0, 0), Point(0, -300, 100));
     World perfect_world = reader.CreateWorld();
@@ -58,10 +58,10 @@ int main() {
 //    perfect_world.AddPrimitive(triangle4);
     LightSource light(Point(0, -300, 100), 50000.5);
 //
-    LightSource light1(Point(0, 0, -100), 1000.5);
+    LightSource light1(Point(7, 7, -10), 3000.5);
     perfect_world.AddLight(light1);
-    std::shared_ptr<Primitive> sphere(new Sphere(Point(3, 3, 0), 0.5));
-    perfect_world.AddPrimitive(sphere);
+//    std::shared_ptr<Primitive> sphere(new Sphere(Point(3, 3, 0), 0.5));
+//    perfect_world.AddPrimitive(sphere);
     perfect_world.AddLight(light);
     Image image = perfect_world.CreateImage(height, width);
     Drawer drawer(image);

@@ -5,9 +5,10 @@
 #include <algorithm>
 #include <iostream>
 #include <limits>
+#include <future>
 #include "KdTree.h"
 
-KdTree::KdTree(const std::vector<std::shared_ptr<Primitive>> &objects) : objects_(objects), kNumberOfSplitPoints(50) {
+KdTree::KdTree(const std::vector<std::shared_ptr<Primitive>> &objects) : objects_(objects), kNumberOfSplitPoints(30) {
     std::function<bool(const PointWithNumber &, const PointWithNumber &)> x_compare = [](const PointWithNumber &a,
                                                                                          const PointWithNumber &b) -> bool {
         return (a.point_.x < b.point_.x);
@@ -31,28 +32,21 @@ void KdTree::BuildTree() {
 }
 
 std::shared_ptr<KdTree::Node> KdTree::BuildVertex_(const std::vector<std::shared_ptr<Primitive>> &objects) {
+    if (objects.size() > 200) {
+        std::cout << objects.size() << std::endl;
+    }
     if (objects.size() == 0) {
         return nullptr;
-    }
-    if (!TryToSplit_(objects)) {
-        std::vector<double> max_coordinates(3, -std::numeric_limits<double>::max());
-        std::vector<double> min_coordinates(3, std::numeric_limits<double>::max());
-        UpdateExtremePointsOnObjects_(objects, max_coordinates, min_coordinates);
-        std::shared_ptr<Node> this_node(
-                new Node(nullptr, nullptr, objects, min_coordinates[0], max_coordinates[0], min_coordinates[1],
-                         max_coordinates[1], min_coordinates[2], max_coordinates[2]));
-        return this_node;
-
     }
     Splitter split = Split_(objects);
     std::vector<std::shared_ptr<Primitive>> left_objects;
     std::vector<std::shared_ptr<Primitive>> right_objects;
     std::vector<std::shared_ptr<Primitive>> own_objects;
     for (auto object: objects) {
-        if (object->GetMinCoordinate(split.coordinate) < split.plain) {
+        if (object->GetMinCoordinate(split.coordinate) < split.plain + Primitive::kAccuracy) {
             left_objects.push_back(object);
         }
-        if (object->GetMaxCoordinate(split.coordinate) > split.plain) {
+        if (object->GetMaxCoordinate(split.coordinate) > split.plain - Primitive::kAccuracy) {
             right_objects.push_back(object);
         }
     }
@@ -65,14 +59,15 @@ std::shared_ptr<KdTree::Node> KdTree::BuildVertex_(const std::vector<std::shared
                          max_coordinates[1], min_coordinates[2], max_coordinates[2]));
         return this_node;
     }
-    std::shared_ptr<Node> left = BuildVertex_(left_objects);
-    std::shared_ptr<Node> right = BuildVertex_(right_objects);
-    std::vector<double> max_coordinates(3);
-    max_coordinates.assign(3, -std::numeric_limits<double>::max());
+    std::shared_ptr<Node> left;
+    std::shared_ptr<Node> right;
+    left = BuildVertex_(left_objects);
+    right = BuildVertex_(right_objects);
+    std::vector<double> max_coordinates(3, -std::numeric_limits<double>::max());
     double max_x = max_coordinates[0];
     double max_y = max_coordinates[1];
     double max_z = max_coordinates[2];
-    std::vector<double> min_coordinates(3);
+    std::vector<double> min_coordinates(3, std::numeric_limits<double>::max());
     double min_x = min_coordinates[0];
     double min_y = min_coordinates[1];
     double min_z = min_coordinates[2];
@@ -114,12 +109,12 @@ std::shared_ptr<Primitive> KdTree::FindIntersection_(std::shared_ptr<Node> verte
         if (object->TryToIntersect(ray)) {
             Point intersection = object->Intersect(ray);
             Vector normal = object->GetNormal(intersection);
-            if (normal.DotProduct(ray.get_vector()) < -Primitive::kAccuracy) {
+//            if (normal.DotProduct(ray.get_vector()) < -Primitive::kAccuracy) {
                 double distance = (ray.get_point() - intersection).Length();
                 if (current_best.distance > distance) {
                     current_best.object = object;
                     current_best.distance = distance;
-                }
+//                }
             }
         }
     }
@@ -185,7 +180,7 @@ bool KdTree::IntersectWithBoundingBox_(std::shared_ptr<Node> node, const Ray &ra
         max_t = std::min(max_t, std::max(t1, t2));
     }
 
-    return (max_t > -Primitive::kAccuracy) && (max_t > min_t - Primitive::kAccuracy);
+    return ((max_t > -Primitive::kAccuracy) && (max_t > min_t - Primitive::kAccuracy));
 }
 
 double KdTree::TimeOfIntersectWithBoundingBox_(std::shared_ptr<Node> node, const Ray &ray) const {
@@ -197,7 +192,7 @@ double KdTree::TimeOfIntersectWithBoundingBox_(std::shared_ptr<Node> node, const
     if (fabs(ray.get_vector().x) < Primitive::kAccuracy) {
         if (ray.get_point().x > node->max_x + Primitive::kAccuracy ||
             ray.get_point().x < node->min_x - Primitive::kAccuracy) {
-            return false;
+            return std::numeric_limits<double>::max();
         }
     } else {
         double t1 = (node->max_x - ray.get_point().x) / ray.get_vector().x;
@@ -208,7 +203,7 @@ double KdTree::TimeOfIntersectWithBoundingBox_(std::shared_ptr<Node> node, const
     if (fabs(ray.get_vector().y) < Primitive::kAccuracy) {
         if (ray.get_point().y > node->max_y + Primitive::kAccuracy ||
             ray.get_point().y < node->min_y - Primitive::kAccuracy) {
-            return false;
+            return std::numeric_limits<double>::max();
         }
     } else {
         double t1 = (node->max_y - ray.get_point().y) / ray.get_vector().y;
@@ -219,7 +214,7 @@ double KdTree::TimeOfIntersectWithBoundingBox_(std::shared_ptr<Node> node, const
     if (fabs(ray.get_vector().z) < Primitive::kAccuracy) {
         if (ray.get_point().z > node->max_z + Primitive::kAccuracy ||
             ray.get_point().z < node->min_z - Primitive::kAccuracy) {
-            return false;
+            return std::numeric_limits<double>::max();
         }
     } else {
         double t1 = (node->max_z - ray.get_point().z) / ray.get_vector().z;
@@ -227,7 +222,7 @@ double KdTree::TimeOfIntersectWithBoundingBox_(std::shared_ptr<Node> node, const
         min_t = std::max(min_t, std::min(t1, t2));
         max_t = std::min(max_t, std::max(t1, t2));
     }
-    if ((max_t > -Primitive::kAccuracy) && (max_t > min_t - Primitive::kAccuracy)) {
+    if ((max_t < -Primitive::kAccuracy) || (max_t < min_t - Primitive::kAccuracy)) {
         return std::numeric_limits<double>::max();
     }
     return std::max(0.0, min_t);
@@ -242,23 +237,6 @@ void KdTree::UpdateExtremePointsOnObjects_(const std::vector<std::shared_ptr<Pri
         }
     }
 
-}
-
-bool KdTree::TryToSplit_(const std::vector<std::shared_ptr<Primitive>> &objects) {
-    std::vector<double> max_coordinates(3, -std::numeric_limits<double>::max());
-    std::vector<double> min_coordinates(3, std::numeric_limits<double>::max());
-    UpdateExtremePointsOnObjects_(objects, max_coordinates, min_coordinates);
-    std::vector<Splitter> splitters;
-    for (size_t i = 0; i < 3; ++i) {
-        for (size_t j = 0; j < kNumberOfSplitPoints; ++j) {
-            Splitter splitter(i, min_coordinates[i] + (j + 1) * (max_coordinates[i] - min_coordinates[i]) /
-                                                      (kNumberOfSplitPoints + 1));
-            if (TryToSplit_(splitter, objects)) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 KdTree::Splitter KdTree::Split_(const std::vector<std::shared_ptr<Primitive>> &objects) {
@@ -289,23 +267,6 @@ KdTree::Splitter KdTree::Split_(const std::vector<std::shared_ptr<Primitive>> &o
         }
     }
     return current_best;
-}
-
-bool KdTree::TryToSplit_(const Splitter &splitter, const std::vector<std::shared_ptr<Primitive>> &objects) {
-    std::vector<std::shared_ptr<Primitive> > left;
-    std::vector<std::shared_ptr<Primitive> > right;
-    for (auto object : objects) {
-        if (object->GetMaxCoordinate(splitter.coordinate) > splitter.plain) {
-            left.push_back(object);
-        }
-        if (object->GetMinCoordinate(splitter.coordinate) < splitter.plain) {
-            right.push_back(object);
-        }
-    }
-    if (right.size() < objects.size() && left.size() < objects.size()) {
-        return true;
-    }
-    return false;
 }
 
 double KdTree::CountCost_(const std::vector<std::shared_ptr<Primitive>> &objects) {
