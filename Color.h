@@ -27,6 +27,8 @@ public:
 
     double get_b() const { return b_; }
 
+    Color Mix(const Color &another_color, double coefficient);
+
     void AddLight(double lightness);
 
     HslColor ToHsl() const;

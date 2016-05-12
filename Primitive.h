@@ -10,6 +10,7 @@
 #include "Color.h"
 #include "Ray.h"
 #include "Point.h"
+#include "Material.h"
 
 class Primitive {
 public:
@@ -31,7 +32,9 @@ public:
 
     virtual void SetOutsideColor(const Color &color) = 0;
 
-    virtual void SetInsideColor(const Color &color) = 0;
+    virtual void SetMaterial(const Material &material) = 0;
+
+    virtual Material GetMaterial() const = 0;
 
 
     static const double kAccuracy;

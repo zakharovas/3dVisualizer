@@ -78,9 +78,6 @@ Point Triangle::GetImportantPoint() const {
     return (point1_ + point2_ + point3_) / 3;
 }
 
-void Triangle::SetInsideColor(const Color &color) {
-    inside_color_ = color;
-}
 
 void Triangle::SetOutsideColor(const Color &color) {
     outside_color_ = color;

@@ -3,6 +3,8 @@
 //
 
 #include <algorithm>
+#include <iostream>
+#include <limits>
 #include "KdTree.h"
 
 
@@ -26,7 +28,14 @@ KdTree::KdTree(const std::vector<std::shared_ptr<Primitive>> &objects) : objects
 }
 
 void KdTree::BuildTree() {
-    root_ = BuildVertex_(objects_, 0);
+    for (size_t i = 0; i < 3; ++i) {
+        root_ = BuildVertex_(objects_, i);
+        if (root_->own_primitives.size() * 2 > objects_.size()) {
+            continue;
+        }
+        break;
+    }
+
 
 }
 
@@ -39,6 +48,9 @@ std::shared_ptr<KdTree::Node> KdTree::BuildVertex_(const std::vector<std::shared
     for (size_t i = 0; i < objects.size(); ++i) {
         Point important_point = objects[i]->GetImportantPoint();
         points.push_back(PointWithNumber(important_point, i));
+    }
+    if (!TryToSplit_(objects)) {
+        
     }
     std::nth_element(points.begin(), points.end(), points.begin() + points.size() / 2, comparators_[coordinate]);
     std::vector<std::shared_ptr<Primitive>> left_objects;
@@ -59,42 +71,27 @@ std::shared_ptr<KdTree::Node> KdTree::BuildVertex_(const std::vector<std::shared
             imprtant_point = 0;
             break;
     }
-    for (auto it = points.begin(); it != points.begin() + points.size() / 2 + 1; it++) {
-        if (objects[it->number]->GetMaxCoordinate(coordinate) > imprtant_point) {
-            own_objects.push_back(objects[it->number]);
-        } else {
+    for (auto it = points.begin(); it != points.end(); it++) {
+        if (objects[it->number]->GetMinCoordinate(coordinate) < imprtant_point) {
             left_objects.push_back(objects[it->number]);
         }
     }
-    for (auto it = points.begin() + points.size() / 2 + 1; it != points.end(); it++) {
-        if (objects[it->number]->GetMinCoordinate(coordinate) < imprtant_point) {
-            own_objects.push_back(objects[it->number]);
-        } else {
+    for (auto it = points.begin(); it != points.end(); it++) {
+        if (objects[it->number]->GetMaxCoordinate(coordinate) > imprtant_point) {
             right_objects.push_back(objects[it->number]);
         }
     }
     std::shared_ptr<Node> left = BuildVertex_(left_objects, (coordinate + 1) % 3);
     std::shared_ptr<Node> right = BuildVertex_(right_objects, (coordinate + 1) % 3);
-    std::vector<double> max_coordinates;
-    max_coordinates.assign(3, std::numeric_limits<double>::min());
-    for (auto object: own_objects) {
-        for (size_t i = 0; i < 3; ++i) {
-            max_coordinates[i] = std::max(max_coordinates[i], object->GetMaxCoordinate(i));
-        }
-    }
+    std::vector<double> max_coordinates(3);
+    max_coordinates.assign(3, -std::numeric_limits<double>::max());
     double max_x = max_coordinates[0];
     double max_y = max_coordinates[1];
     double max_z = max_coordinates[2];
-    std::vector<double> min_coordinates;
-    max_coordinates.assign(3, std::numeric_limits<double>::max());
-    for (auto object: own_objects) {
-        for (size_t i = 0; i < 3; ++i) {
-            min_coordinates[i] = std::min(min_coordinates[i], object->GetMinCoordinate(i));
-        }
-    }
-    double min_x = max_coordinates[0];
-    double min_y = max_coordinates[1];
-    double min_z = max_coordinates[2];
+    std::vector<double> min_coordinates(3);
+    double min_x = min_coordinates[0];
+    double min_y = min_coordinates[1];
+    double min_z = min_coordinates[2];
     UpdateExtremePoints_(left, max_x, max_y, max_z, min_x,
                          min_y, min_z);
     UpdateExtremePoints_(right, max_x, max_y, max_z, min_x,
@@ -134,7 +131,8 @@ std::shared_ptr<Primitive> KdTree::FindIntersection_(std::shared_ptr<Node> verte
             Point intersection = object->Intersect(ray);
             Vector normal = object->GetNormal(intersection);
             if (normal.DotProduct(ray.get_vector()) < -Primitive::kAccuracy) {
-                double distance = (ray.get_vector() - intersection).Length();
+//            {
+                double distance = (ray.get_point() - intersection).Length();
                 if (current_best.distance > distance) {
                     current_best.object = object;
                     current_best.distance = distance;
@@ -165,7 +163,10 @@ std::shared_ptr<Primitive> KdTree::FindIntersection_(std::shared_ptr<Node> verte
 }
 
 bool KdTree::IntersectWithBoundingBox_(std::shared_ptr<Node> node, const Ray &ray) const {
-    double min_t = std::numeric_limits<double>::min();
+    if (node == nullptr) {
+        return false;
+    }
+    double min_t = -std::numeric_limits<double>::max();
     double max_t = std::numeric_limits<double>::max();
     if (fabs(ray.get_vector().x) < Primitive::kAccuracy) {
         if (ray.get_point().x > node->max_x + Primitive::kAccuracy ||
@@ -205,7 +206,10 @@ bool KdTree::IntersectWithBoundingBox_(std::shared_ptr<Node> node, const Ray &ra
 }
 
 double KdTree::TimeOfIntersectWithBoundingBox_(std::shared_ptr<Node> node, const Ray &ray) const {
-    double min_t = std::numeric_limits<double>::min();
+    if (node == nullptr) {
+        return std::numeric_limits<double>::max();
+    }
+    double min_t = -std::numeric_limits<double>::max();
     double max_t = std::numeric_limits<double>::max();
     if (fabs(ray.get_vector().x) < Primitive::kAccuracy) {
         if (ray.get_point().x > node->max_x + Primitive::kAccuracy ||

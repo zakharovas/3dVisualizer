@@ -11,12 +11,13 @@
 #include "Image.h"
 #include "LightSource.h"
 #include "Camera.h"
+#include "KdTree.h"
 
 class World {
 public:
     World() : camera_(Camera()) { };
 
-    void AddPrimitive(const std::shared_ptr<Primitive> &primitive);
+    void AddPrimitive(std::shared_ptr<Primitive> primitive);
 
     void AddLight(const LightSource &light);
 
@@ -28,10 +29,11 @@ private:
     std::vector<std::shared_ptr<Primitive>> objects_;
     Camera camera_;
     std::vector<LightSource> lights_;
+    std::shared_ptr<KdTree> tree;
 
     std::vector<std::vector<Ray>> CalculateRays_(unsigned int height, unsigned int width);
 
-    Color CalculateColor_(const Ray &ray);
+    Color CalculateColor_(const Ray &ray, size_t depth);
 
     struct PointWithNumber {
         Point point;
@@ -39,9 +41,7 @@ private:
         double distance;
     };
 
-    std::shared_ptr<Primitive> FindClosestPrimitive(const Ray &ray);
-
-    Color CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray &ray);
+    Color CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray &ray, const Color &basic_color_rgb);
 };
 
 

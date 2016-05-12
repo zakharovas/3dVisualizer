@@ -76,10 +76,6 @@ void Sphere::SetOutsideColor(const Color &color) {
     outside_color_ = color;
 }
 
-void Sphere::SetInsideColor(const Color &color) {
-    inside_color_ = color;
-}
-
 Sphere::Sphere(Point center, double radius) : center_(center), radius_(radius),
                                               inside_color_(Color::kDefaultInsideColor),
                                               outside_color_(Color::kDefaultOutsideColor) {

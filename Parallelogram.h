@@ -25,13 +25,19 @@ public:
 
     virtual void Move(const Vector &vector) override;
 
-    virtual void SetInsideColor(const Color &color) override;
-
     virtual void SetOutsideColor(const Color &color) override;
 
     virtual double GetMinCoordinate(size_t number_of_coordinate) const override;
 
     virtual double GetMaxCoordinate(size_t number_of_coordinate) const override;
+
+    virtual void SetMaterial(const Material &material) override {
+
+    }
+
+    virtual Material GetMaterial() const override {
+        return Material("", Color(), 0, 0);
+    }
 
 
 private:

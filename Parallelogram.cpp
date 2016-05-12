@@ -87,10 +87,6 @@ void Parallelogram::Move(const Vector &vector) {
     point4_ = point4_ + vector;
 }
 
-void Parallelogram::SetInsideColor(const Color &color) {
-    inside_color_ = color;
-}
-
 void Parallelogram::SetOutsideColor(const Color &color) {
     outside_color_ = color;
 }

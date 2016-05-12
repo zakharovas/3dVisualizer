@@ -12,8 +12,6 @@ class Triangle : public Primitive {
 public:
     Triangle(Point point1, Point point2, Point point3, Vector normal);
 
-    virtual void SetInsideColor(const Color &color) override;
-
     virtual void SetOutsideColor(const Color &color) override;
 
     virtual bool TryToIntersect(const Ray &ray) const override;
@@ -31,6 +29,14 @@ public:
     virtual Point GetImportantPoint() const override;
 
     virtual void Move(const Vector &vector) override;
+
+    virtual void SetMaterial(const Material &material) override {
+
+    }
+
+    virtual Material GetMaterial() const override {
+        return Material("", Color(), 0, 0);
+    }
 
 
 private:

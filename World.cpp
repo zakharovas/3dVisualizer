@@ -3,7 +3,10 @@
 //
 
 #include <limits>
+#include <iostream>
+#include <chrono>
 #include "World.h"
+#include "KdTree.h"
 
 void World::SetCamera(const Camera &camera) {
     camera_ = camera;
@@ -15,18 +18,32 @@ void World::AddLight(const LightSource &light) {
 
 
 Image World::CreateImage(unsigned int height, unsigned int width) {
+    std::cout << "Building tree started" << std::endl;
+    std::chrono::time_point<std::chrono::system_clock> start_of_building = std::chrono::system_clock::now();
+    tree = std::shared_ptr<KdTree>(new KdTree(objects_));
+    tree->BuildTree();
+    std::chrono::time_point<std::chrono::system_clock> end_of_building = std::chrono::system_clock::now();
+    long long int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>
+            (end_of_building - start_of_building).count();
+    std::cout << "Kd Tree has been built in " << elapsed_seconds << " ms" << std::endl;
+    std::cout << "Building image started" << std::endl;
+    start_of_building = std::chrono::system_clock::now();
     Image image_without_anti_aliasing(height + 1, width + 1);
     std::vector<std::vector<Ray>> rays = CalculateRays_(height + 1, width + 1);
     for (unsigned int y = 0; y < height + 1; ++y) {
         for (unsigned int x = 0; x < width + 1; ++x) {
-            image_without_anti_aliasing.SetPixel(x, y, CalculateColor_(rays[y][x]));
+            image_without_anti_aliasing.SetPixel(x, y, CalculateColor_(rays[y][x], 0));
         }
     }
+    end_of_building = std::chrono::system_clock::now();
+    elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>
+            (end_of_building - start_of_building).count();
+    std::cout << "Image has been built in " << elapsed_seconds << " ms" << std::endl;
     return image_without_anti_aliasing.Smooth();
 }
 
-void World::AddPrimitive(const std::shared_ptr<Primitive> &primitive) {
-    objects_.push_back(std::move(primitive));
+void World::AddPrimitive(std::shared_ptr<Primitive> primitive) {
+    objects_.push_back(primitive);
 }
 
 std::vector<std::vector<Ray>> World::CalculateRays_(unsigned int height, unsigned int width) {
@@ -46,35 +63,24 @@ std::vector<std::vector<Ray>> World::CalculateRays_(unsigned int height, unsigne
     return rays;
 }
 
-Color World::CalculateColor_(const Ray &ray) {
-    auto best_primitive = FindClosestPrimitive(ray);
-    return CalculateLight_(best_primitive, ray);
-}
-
-std::shared_ptr<Primitive> World::FindClosestPrimitive(const Ray &ray) {
-    PointWithNumber closest_object;
-    closest_object.distance = std::numeric_limits<double>::max();
-    closest_object.object = std::shared_ptr<Primitive>(nullptr);
-    for (auto primitive: objects_) {
-        if (primitive->TryToIntersect(ray)) {
-            Point point_of_intersection = primitive->Intersect(ray);
-            double distance = (point_of_intersection - ray.get_point()).Length();
-            if (distance < closest_object.distance) {
-                closest_object.distance = distance;
-                closest_object.object = primitive;
-                closest_object.point = point_of_intersection;
-            }
-        }
-    }
-    return closest_object.object;
-}
-
-Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray &ray) {
-    if (object == nullptr) {
+Color World::CalculateColor_(const Ray &ray, size_t depth) {
+    auto best_primitive = tree->FindIntersection(ray);
+    if (best_primitive == nullptr) {
         return Color();
     }
+    Point point_of_intersection = best_primitive->Intersect(ray);
+    Color basic_color = best_primitive->GetColor(point_of_intersection, ray.get_vector());
+//    if (depth < 1) {
+//        Color reflex_color = Reflect_(best_primitive, ray, depth + 1, best_primitive->GetMaterial().get_reflect());
+//        basic_color = basic_color.Mix(reflex_color, best_primitive->GetMaterial().get_reflect());
+//    }
+    return CalculateLight_(best_primitive, ray, basic_color);
+}
+
+Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray &ray, const Color &basic_color_rgb) {
     Point point_of_intersection = object->Intersect(ray);
-    HslColor basic_color = object->GetColor(point_of_intersection, ray.get_vector()).ToHsl();
+
+    HslColor basic_color = basic_color_rgb.ToHsl();
     Vector normal = object->GetNormal(point_of_intersection);
     if (ray.get_vector().DotProduct(normal) < 0) {
         normal = normal * -1;

@@ -59,7 +59,7 @@ HslColor::HslColor(const Color &color) {
 }
 
 void HslColor::AddLight(double lightness) {
-    l_ = std::min(1.0, (l_ + lightness) / 2);
+    l_ = std::min(1.0, l_ * lightness);
 }
 
 Color HslColor::ToRgb() const {
@@ -107,6 +107,15 @@ void HslColor::RemoveLight() {
 const Color Color::kDefaultOutsideColor = Color(128, 128, 128);
 
 const Color Color::kDefaultInsideColor = Color(255, 0, 0);
+
+Color Color::Mix(const Color &another_color, double coefficient) {
+    double r = ((1 - coefficient) * r_ + another_color.r_ * coefficient);
+    double g = ((1 - coefficient) * g_ + another_color.g_ * coefficient);
+    double b = ((1 - coefficient) * b_ + another_color.b_ * coefficient);
+    return Color(r, g, b);
+}
+
+
 
 
 

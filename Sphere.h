@@ -32,8 +32,13 @@ public:
 
     virtual void SetOutsideColor(const Color &color) override;
 
-    virtual void SetInsideColor(const Color &color) override;
+    virtual void SetMaterial(const Material &material) override {
 
+    }
+
+    virtual Material GetMaterial() const override {
+        return Material("", Color(), 0, 0);
+    }
 
 private:
     Point center_;

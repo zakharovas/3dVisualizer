@@ -50,7 +50,7 @@ World RtReader::CreateWorld() {
             break;
         }
     }
-    std::cout << "READING COMPLETED";
+    std::cout << "READING COMPLETED" << std::endl;
     return new_world;
 }
 

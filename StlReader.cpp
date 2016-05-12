@@ -48,7 +48,7 @@ World StlReader::CreateWorld() {
             break;
         }
     }
-    std::cout << "READING COMPLETED";
+    std::cout << "READING COMPLETED" << std::endl;
     return new_world;
 }
 
@@ -87,7 +87,6 @@ std::shared_ptr<Primitive> StlReader::ReadTriangle_() {
         }
     }
     std::shared_ptr<Primitive> object(new Triangle(points[0], points[1], points[2], normal));
-    object->SetInsideColor(inside_color);
     object->SetOutsideColor(outside_color);
     return object;
 }

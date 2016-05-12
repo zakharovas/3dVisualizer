@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 #include "PixelToaster.h"
 #include "Drawer.h"
 #include "World.h"
@@ -11,17 +12,16 @@
 
 int main() {
     std::string filename = "C:\\Easy.stl";
-    std::cout << filename.c_str();
     StlReader reader(filename);
-
-
+//    Camera camera(Point(-100, 0, 200), Point(100, 0, 200), Point(-100, 0, 0), Point(100, 0, 0), Point(0, -300, 100));
     World perfect_world = reader.CreateWorld();
+//    perfect_world.SetCamera(camera);
 //    Point point = Point(1, 1, 0);
 //    Sphere sph1(point, 2);
 //    Ray ray(Point(-1,-1,0), Vector(1,1,0));
 //    sph1.TryToIntersect(ray);
 //    srand(10);
-    const int width = 1400;
+    const int width = 800;
     const int height = 600;
 //
 //    Point p = Point(0, 1, 1).HorizontalRotation(-3.141592 / 4);
@@ -56,9 +56,10 @@ int main() {
 //    perfect_world.AddPrimitive(triangle2);
 //    perfect_world.AddPrimitive(triangle3);
 //    perfect_world.AddPrimitive(triangle4);
-    LightSource light(Point(0, 0, 10), 100.5);
+    LightSource light(Point(0, -300, 100), 50000.5);
 //
-
+    LightSource light1(Point(0, 0, -100), 1000.5);
+    perfect_world.AddLight(light1);
     std::shared_ptr<Primitive> sphere(new Sphere(Point(3, 3, 0), 0.5));
     perfect_world.AddPrimitive(sphere);
     perfect_world.AddLight(light);

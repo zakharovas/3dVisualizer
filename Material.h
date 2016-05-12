@@ -10,8 +10,6 @@
 #include "Color.h"
 
 class Material {
-
-private:
 public:
     Material(const std::string &name, const Color &color, double reflect, double refract) : name(name), color(color),
                                                                                             reflect(reflect),
