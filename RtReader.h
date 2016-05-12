@@ -14,6 +14,7 @@
 
 class RtReader {
 
+public:
 
     RtReader(const std::string &name_of_file);
 
@@ -23,13 +24,21 @@ class RtReader {
 
 private:
     std::ifstream input_stream_;
-    std::map<std::string, Material> materials;
+    std::map<std::string, Material> materials_;
 
     std::shared_ptr<Primitive> ReadTriangle_();
 
-    std::vector<Point> ReadVertexes_();
-
     Camera ReadCamera_();
+
+    std::vector<LightSource> ReadLights_();
+
+    std::vector<std::shared_ptr<Primitive>> ReadPrimitives_();
+
+    void ReadMaterials_();
+
+    std::shared_ptr<Primitive> ReadSphere_();
+
+    std::vector<std::shared_ptr<Primitive>> ReadQuadrangle_();
 };
 
 
