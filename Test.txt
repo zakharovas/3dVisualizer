@@ -1,0 +1,74 @@
+viewport
+	origin -3 -0.1 0.2
+		topleft 0 -1.5 1.5
+		bottomleft 0 -1.5 -1.5
+		topright 0 1.5 1.5
+		
+endviewport
+
+materials
+	entry
+		name wall
+		color 210 210 240
+		reflect 0.3
+		refract 0.7
+
+	endentry
+	entry
+		name glass
+		color 0 250 0
+		reflect 0.8
+		refract 0.7
+	endentry
+endmaterials
+
+lights
+	reference
+		power 1
+		distance 1
+	endreference
+	point
+		position 0 0 10
+		power 100
+	endpoint
+	point 
+		position -3 -0.1 0.2
+		power 10
+	endpoint
+endlights
+geometry
+sphere
+	center 0 0 0.5
+	radius 0.75
+	material glass
+endsphere
+
+triangle
+	vertex -1 -1 -1
+	vertex 1 -1 -1 
+	vertex -1 1 -1
+	material wall
+endtriangle
+
+triangle
+	vertex 1 -1 -1
+	vertex 1 1 -1
+	vertex -1 1 -1
+	material wall
+endtriangle
+
+triangle
+	vertex 1 -1 -1
+	vertex 1 -1 2
+	vertex 1 1 -1
+	material wall
+endtriangle
+
+triangle
+	vertex 1 -1 2
+	vertex 1 1 2
+	vertex 1 1 -1
+	material wall
+endtriangle
+endgeometry
+
