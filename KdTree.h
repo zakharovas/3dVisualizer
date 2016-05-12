@@ -56,11 +56,20 @@ private:
         double distance;
     };
 
+    struct Splitter {
+        Splitter(size_t coordinate, double plain) : coordinate(coordinate), plain(plain) { }
+
+        double plain;
+        size_t coordinate;
+    };
+
+    static const kNumberOfSplitPoints;
+
     std::vector<std::shared_ptr<Primitive>> objects_;
     std::shared_ptr<Node> root_;
     std::vector<std::function<bool(const PointWithNumber &, const PointWithNumber &)>> comparators_;
 
-    std::shared_ptr<Node> BuildVertex_(const std::vector<std::shared_ptr<Primitive>> &objects, size_t coordinate);
+    std::shared_ptr<KdTree::Node> BuildVertex_(const std::vector<std::shared_ptr<Primitive>> &objects);
 
     std::shared_ptr<Primitive> FindIntersection_(std::shared_ptr<Node> vertex, const Ray &ray) const;
 
@@ -70,6 +79,13 @@ private:
     bool IntersectWithBoundingBox_(std::shared_ptr<Node> node, const Ray &ray) const;
 
     double TimeOfIntersectWithBoundingBox_(std::shared_ptr<Node> node, const Ray &ray) const;
+
+    void UpdateExtremePointsOnObjects_(const std::vector<std::shared_ptr<Primitive>> &objects,
+                                       std::vector<double> &max_coordinates, std::vector<double> &min_coordinates);
+
+    bool TryToSplit_(const std::vector<std::shared_ptr<Primitive>> &objects);
+
+    Splitter Split_(const std::vector<std::shared_ptr<Primitive>> &objects);
 };
 
 
