@@ -25,6 +25,8 @@ public:
 
     Image CreateImage(unsigned int height, unsigned int width);
 
+    Image CreateImageWithAntialiasing(unsigned int height, unsigned int width);
+
 private:
     std::vector<std::shared_ptr<Primitive>> objects_;
     Camera camera_;

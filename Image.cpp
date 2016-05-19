@@ -22,8 +22,8 @@ void Image::SetPixel(unsigned int x, unsigned int y, Color color_) {
 }
 
 Image Image::Smooth() const {
-    assert(get_height() > kAntiAliasingSize && get_width() > kAntiAliasingSize);
-    Image new_image(get_height() - kAntiAliasingSize, get_width() - kAntiAliasingSize);
+    assert((get_height() % kAntiAliasingSize == 0) && (get_width() % kAntiAliasingSize == 0));
+    Image new_image(get_height() / kAntiAliasingSize, get_width() / kAntiAliasingSize);
     for (unsigned int y = 0; y < new_image.get_height(); ++y) {
         for (unsigned int x = 0; x < new_image.get_width(); ++x) {
             new_image.SetPixel(x, y, SmoothColor_(x, y));
@@ -38,9 +38,9 @@ Color Image::SmoothColor_(unsigned int x, unsigned int y) const {
     double blue = 0;
     for (int dx = 0; dx < kAntiAliasingSize; ++dx) {
         for (int dy = 0; dy < kAntiAliasingSize; dy++) {
-            red += image_[y + dy][x + dx].get_r();
-            green += image_[y + dy][x + dx].get_g();
-            blue += image_[y + dy][x + dx].get_b();
+            red += image_[kAntiAliasingSize * y + dy][kAntiAliasingSize * x + dx].get_r();
+            green += image_[kAntiAliasingSize * y + dy][kAntiAliasingSize * x + dx].get_g();
+            blue += image_[kAntiAliasingSize * y + dy][kAntiAliasingSize * x + dx].get_b();
         }
     }
     red /= pow((kAntiAliasingSize), 2);

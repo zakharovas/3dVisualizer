@@ -137,3 +137,10 @@ Color World::Reflect_(std::shared_ptr<Primitive> object, const Ray &ray, size_t 
     return CalculateColor_(reflected_ray, depth);
 }
 
+Image World::CreateImageWithAntialiasing(unsigned int height, unsigned int width) {
+    Image image_without_antialiasing = CreateImage(2 * height, 2 * width);
+    return image_without_antialiasing.Smooth();
+}
+
+
+
