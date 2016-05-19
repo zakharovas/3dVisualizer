@@ -284,14 +284,3 @@ double KdTree::CountCost_(const std::vector<std::shared_ptr<Primitive>> &objects
     cost += objects.size() * current_cost;
     return cost;
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.3)
 project(3dVisualizer)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -pthread")
 set(LIB_PATH PixelToaster-Source-1.2.0/source)
 include_directories(${LIB_PATH})
 set(LIB ${LIB_PATH}/PixelToaster.cpp ${LIB_PATH}/AppleDisplay.h ${LIB_PATH}/ApplePlatform.h ${LIB_PATH}/AppleTimer.h ${LIB_PATH}/Common.h ${LIB_PATH}/Conversion.h ${LIB_PATH}/NullDisplay.h ${LIB_PATH}/NullPlatform.h ${LIB_PATH}/PixelToaster.h ${LIB_PATH}/UnixDisplay.h ${LIB_PATH}/UnixPlatform.h ${LIB_PATH}/UnixTimer.h ${LIB_PATH}/WindowsAdapter.h ${LIB_PATH}/WindowsDevice.h ${LIB_PATH}/WindowsDisplay.h ${LIB_PATH}/WindowsPlatform.h ${LIB_PATH}/WindowsTimer.h ${LIB_PATH}/WindowsWindow.h)
-set(SOURCE_FILES main.cpp World.cpp World.h Primitive.h Color.cpp Color.h Point.cpp Point.h ${LIB} Ray.cpp Ray.h Drawer.cpp Drawer.h Image.cpp Image.h LightSource.cpp LightSource.h Camera.cpp Camera.h Triangle.cpp Triangle.h Primitive.cpp StlReader.cpp StlReader.h Parallelogram.cpp Parallelogram.h Sphere.cpp Sphere.h RtReader.cpp RtReader.h Material.cpp Material.h KdTree.cpp KdTree.h)
+set(SOURCE_FILES main.cpp World.cpp World.h Primitive.h Color.cpp Color.h Point.cpp Point.h ${LIB} Ray.cpp Ray.h Drawer.cpp Drawer.h Image.cpp Image.h LightSource.cpp LightSource.h Camera.cpp Camera.h Triangle.cpp Triangle.h Primitive.cpp StlReader.cpp StlReader.h Parallelogram.cpp Parallelogram.h Sphere.cpp Sphere.h RtReader.cpp RtReader.h Material.cpp Material.h KdTree.cpp KdTree.h ThreadPool.h ThreadPool.cpp)
 add_executable(3dVisualizer ${SOURCE_FILES})
 target_link_libraries(3dVisualizer d3d9 dxguid)

@@ -5,8 +5,11 @@
 #include <limits>
 #include <iostream>
 #include <chrono>
+#include <future>
+#include <functional>
 #include "World.h"
 #include "KdTree.h"
+#include "ThreadPool.h"
 
 void World::SetCamera(const Camera &camera) {
     camera_ = camera;
@@ -30,9 +33,18 @@ Image World::CreateImage(unsigned int height, unsigned int width) {
     start_of_building = std::chrono::system_clock::now();
     Image image_without_anti_aliasing(height, width);
     std::vector<std::vector<Ray>> rays = CalculateRays_(height, width);
+    ThreadPool thread_pool;
+    std::vector<std::vector<std::future<Color>>> future_image(height);
     for (unsigned int y = 0; y < height; ++y) {
         for (unsigned int x = 0; x < width; ++x) {
-            image_without_anti_aliasing.SetPixel(x, y, CalculateColor_(rays[y][x], 0));
+            std::function<Color()> current_function = std::bind(&World::CalculateColor_, this, std::cref(rays[y][x]),
+                                                                0);
+            future_image[y].push_back(thread_pool.Submit(current_function));
+        }
+    }
+    for (unsigned int y = 0; y < height; ++y) {
+        for (unsigned int x = 0; x < width; ++x) {
+            image_without_anti_aliasing.SetPixel(x, y, future_image[y][x].get());
         }
     }
     end_of_building = std::chrono::system_clock::now();
@@ -121,7 +133,7 @@ Color World::Reflect_(std::shared_ptr<Primitive> object, const Ray &ray, size_t 
     normal = normal * product;
     Vector delta = ray.get_vector() + normal;
     Vector reflected = (ray.get_vector() * -1) + (delta * 2);
-    Ray reflected_ray(point, reflected);
+    Ray reflected_ray(point + (reflected * Primitive::kAccuracy), reflected);
     return CalculateColor_(reflected_ray, depth);
 }
 
