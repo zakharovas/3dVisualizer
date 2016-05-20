@@ -82,13 +82,14 @@ Color World::CalculateColor_(const Ray &ray, size_t depth) {
     }
     Point point_of_intersection = best_primitive->Intersect(ray);
     Color basic_color = best_primitive->GetColor(point_of_intersection, ray.get_vector());
+    basic_color = CalculateLight_(best_primitive, ray, basic_color);
     if (depth < 10) {
         if (best_primitive->GetMaterial().get_reflect() > Primitive::kAccuracy) {
             Color reflex_color = Reflect_(best_primitive, ray, depth + 1, best_primitive->GetMaterial().get_reflect());
             basic_color = basic_color.Mix(reflex_color, best_primitive->GetMaterial().get_reflect());
         }
     }
-    return CalculateLight_(best_primitive, ray, basic_color);
+    return basic_color;
 }
 
 Color World::CalculateLight_(const std::shared_ptr<Primitive> &object, const Ray &ray, const Color &basic_color_rgb) {

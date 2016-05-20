@@ -138,6 +138,7 @@ void RtReader::ReadMaterials_() {
         double r;
         double g;
         input_stream_ >> r >> g >> b;
+        std::cout << material_name << " " << r << " " << g << " " << b << std::endl;
         Color color(r, g, b);
         double reflect;
         double refract;
