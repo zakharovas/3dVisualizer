@@ -238,23 +238,3 @@ std::shared_ptr<Primitive> RtReader::ReadTriangle_() {
     input_stream_ >> s;
     return triangle;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

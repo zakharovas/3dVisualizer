@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
 project(3dVisualizer)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2")
 set(LIB_PATH PixelToaster-Source-1.2.0/source)
 include_directories(${LIB_PATH})
 set(LIB ${LIB_PATH}/PixelToaster.cpp)
