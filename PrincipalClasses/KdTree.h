@@ -8,7 +8,7 @@
 
 #include <memory>
 #include <vector>
-#include "Primitive.h"
+#include "../Primitives/Primitive.h"
 
 class KdTree {
 private:

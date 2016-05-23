@@ -7,10 +7,10 @@
 
 
 #include <cstdlib>
-#include "Color.h"
-#include "Ray.h"
-#include "Point.h"
-#include "Material.h"
+#include "../GeneralClasses/Color.h"
+#include "../GeneralClasses/Ray.h"
+#include "../GeneralClasses/Point.h"
+#include "../GeneralClasses/Material.h"
 
 class Primitive {
 public:

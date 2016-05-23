@@ -8,7 +8,7 @@
 
 #include <string>
 #include <fstream>
-#include "World.h"
+#include "../PrincipalClasses/World.h"
 
 class StlReader {
 public:

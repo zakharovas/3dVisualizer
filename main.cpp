@@ -2,10 +2,10 @@
 #include <cstdlib>
 #include <limits>
 #include "PixelToaster.h"
-#include "Drawer.h"
-#include "World.h"
-#include "StlReader.h"
-#include "RtReader.h"
+#include "PrincipalClasses/Drawer.h"
+#include "PrincipalClasses/World.h"
+#include "Readers/StlReader.h"
+#include "Readers/RtReader.h"
 
 
 int main(int argc, char *argv[]) {

@@ -9,8 +9,8 @@
 #include <string>
 #include <fstream>
 #include <map>
-#include "World.h"
-#include "Material.h"
+#include "../PrincipalClasses/World.h"
+#include "../GeneralClasses/Material.h"
 
 class RtReader {
 

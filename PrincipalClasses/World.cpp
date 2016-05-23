@@ -9,7 +9,7 @@
 #include <functional>
 #include "World.h"
 #include "KdTree.h"
-#include "ThreadPool.h"
+#include "../GeneralClasses/ThreadPool.h"
 
 void World::SetCamera(const Camera &camera) {
     camera_ = camera;

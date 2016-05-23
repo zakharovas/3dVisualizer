@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include "Color.h"
+#include "../GeneralClasses/Color.h"
 
 class Image {
 public:

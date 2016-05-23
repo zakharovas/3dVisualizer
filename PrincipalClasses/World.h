@@ -7,10 +7,10 @@
 
 
 #include <memory>
-#include "Primitive.h"
+#include "../Primitives/Primitive.h"
 #include "Image.h"
-#include "LightSource.h"
-#include "Camera.h"
+#include "../GeneralClasses/LightSource.h"
+#include "../GeneralClasses/Camera.h"
 #include "KdTree.h"
 
 class World {

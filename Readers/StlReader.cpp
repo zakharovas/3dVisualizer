@@ -5,7 +5,7 @@
 #include <cassert>
 #include <iostream>
 #include "StlReader.h"
-#include "Triangle.h"
+#include "../Primitives/Triangle.h"
 
 StlReader::StlReader(const std::string &name_of_file) {
     input_stream_.open(name_of_file.c_str(), std::ifstream::in);

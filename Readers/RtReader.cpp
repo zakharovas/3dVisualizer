@@ -7,8 +7,8 @@
 #include <iostream>
 #include <algorithm>
 #include "RtReader.h"
-#include "Triangle.h"
-#include "Sphere.h"
+#include "../Primitives/Triangle.h"
+#include "../Primitives/Sphere.h"
 
 RtReader::RtReader(const std::string &name_of_file) {
     input_stream_.open(name_of_file.c_str(), std::ifstream::in);
